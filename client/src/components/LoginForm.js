@@ -1,27 +1,35 @@
 import React from 'react';
+import { useInput } from '../Utils';
 
-const signUp = () => {
+const SignUp = () => {
+    const { value: email, inputProps: emailProps } = useInput("");
+    const { value: username, inputProps: userProps } = useInput("");
+    const { value: password, inputProps: passwordProps } = useInput("");
+    const { value: confirm, inputProps: confirmProps } = useInput("");
+
     return (
         <form>
             <label>Email:</label>
-            <input type="email" name="email" />
+            <input type="email" {...emailProps} />
             <label>Username:</label>
-            <input type="text" name="username" />
+            <input type="text" {...userProps} />
             <label>Password:</label>
-            <input type="password" name="password" />
+            <input type="password" {...passwordProps} />
             <label>Confirm:</label>
-            <input type="password" name="confirmPassword" />
+            <input type="password" {...confirmProps} />
         </form>
     );
 }
 
-const login = () => {
+const Login = () => {
+    const { value: email, inputProps: emailProps } = useInput("");
+    const { value: password, inputProps: passwordProps } = useInput("");
     return (
         <form>
             <label>Email:</label>
-            <input type="email" name="email" />
+            <input type="email" {...emailProps} />
             <label>Password:</label>
-            <input type="password" name="password" />
+            <input type="password" {...passwordProps} />
         </form>
     );
 }
@@ -30,8 +38,8 @@ const loginForm = () => {
     return (
         <div>
             <p>Login</p>
-            {login()}
-            {signUp()}
+            <Login />
+            <SignUp />
             <p>Sign up?</p>
         </div>
     );

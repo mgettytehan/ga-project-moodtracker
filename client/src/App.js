@@ -3,7 +3,9 @@ import { moodForm } from './components/MoodForm.js'
 import { scaleEditor } from './components/ScaleEditor'
 import { loginForm } from './components/LoginForm.js'
 
-function App() {
+const App = () => {
+
+
   return (
     <div>
       {loginForm()}

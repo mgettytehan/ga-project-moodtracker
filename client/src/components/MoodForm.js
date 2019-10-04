@@ -5,7 +5,7 @@ const testMoodScales = [
     {
         id: 1,
         scaleName: "Happiness",
-        scaleType: "number",
+        scaleType: "text",
         scaleItems: [
             {
                 index: 0,
@@ -43,7 +43,7 @@ const testMoodScales = [
     },
 ]
 
-const moodScaleDisplay = moodScale => {
+const moodScaleSelect = moodScale => {
     return (
         <div>
             <span>{moodScale.scaleName}</span>
@@ -60,7 +60,7 @@ const moodForm = () => {
     return (
         <div>
             <form>
-                {testMoodScales.map(moodScale => moodScaleDisplay(moodScale))}
+                {testMoodScales.map(moodScale => moodScaleSelect(moodScale))}
                 <input type="submit" value="Submit"/>
             </form>
         </div>

@@ -18,13 +18,13 @@ class MoodLogSerializer(serializers.ModelSerializer):
         model = MoodLog
         fields = ['madeOn', 'notes']
 
+# credit to tutorial https://medium.com/@dakota.lillie/django-react-jwt-authentication-5015ee00ef9a
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('username')
 
 class UserSerializerWithToken(serializers.ModelSerializer):
-
     token = serializers.SerializerMethodField()
     password = serializers.CharField(write_only=True)
 

@@ -139,4 +139,8 @@ REST_FRAMEWORK = {
     ),
 }
 
+JWT_AUTH = {
+    'JWT_RESPONSE_PAYLOAD_HANDLER': 'mysite.utils.my_jwt_response_handler'
+}
+
 django_heroku.settings(locals())

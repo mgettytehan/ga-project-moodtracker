@@ -1,8 +1,10 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 class MoodScale(models.Model):
     scaleName = models.CharField(max_length=30)
     scaleType = models.CharField(max_length=15)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='moodScales')
 
 class ScaleItem(models.Model):
     class Meta:
@@ -15,6 +17,7 @@ class ScaleItem(models.Model):
 class MoodLog(models.Model):
     madeOn = models.DateTimeField(auto_now_add=True)
     notes = models.CharField(max_length=400)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='moodLogs')
 
 class MoodInMoodLog(models.Model):
     class Meta:

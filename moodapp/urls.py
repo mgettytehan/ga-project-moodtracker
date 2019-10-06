@@ -1,11 +1,15 @@
 from django.urls import include, path                    
 from rest_framework import routers
-from .views import current_user, UserList
+from . import views
 
 router = routers.DefaultRouter()
 
+router.register(r'moodscales', views.MoodScaleViewSet)
+router.register(r'scaleitems', views.ScaleItemViewSet)
+router.register(r'moodlogs', views.MoodLogViewSet)
+
 urlpatterns = [
-    path('current_user/', current_user),
-    path('users/', UserList.as_view()),
-    # path('', include(router.urls)),
+    path('current_user/', views.current_user),
+    path('users/', views.UserList.as_view()),
+    path('', include(router.urls)),
 ]

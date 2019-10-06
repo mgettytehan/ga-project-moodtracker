@@ -7,6 +7,18 @@ from django.contrib.auth.models import User
 from .models import *
 from .serializers import *
 
+class MoodScaleViewSet(viewsets.ModelViewSet):
+    queryset = MoodScale.objects.all()
+    serializer_class = MoodScaleSerializer
+
+class ScaleItemViewSet(viewsets.ModelViewSet):
+    queryset = ScaleItem.objects.all()
+    serializer_class = ScaleItemSerializer
+
+class MoodLogViewSet(viewsets.ModelViewSet):
+    queryset = MoodLog.objects.all()
+    serializer_class = MoodLogSerializer
+
 # Note: current format is from tutorial.
 # To refactor and normalize according to regular pattern
 

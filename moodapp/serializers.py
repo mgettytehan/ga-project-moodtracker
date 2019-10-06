@@ -6,9 +6,9 @@ from .models import *
 class MoodScaleSerializer(serializers.ModelSerializer):
     class Meta:
         model = MoodScale
-        fields = ['scaleName', 'scaleType']
+        fields = ['scaleName', 'scaleType', 'user']
 
-class ScaleItemsSerializer(serializers.ModelSerializer):
+class ScaleItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = ScaleItem
         fields = ['index', 'alias', 'moodScale']
@@ -16,7 +16,7 @@ class ScaleItemsSerializer(serializers.ModelSerializer):
 class MoodLogSerializer(serializers.ModelSerializer):
     class Meta:
         model = MoodLog
-        fields = ['madeOn', 'notes']
+        fields = ['madeOn', 'notes', 'user']
 
 # credit to tutorial https://medium.com/@dakota.lillie/django-react-jwt-authentication-5015ee00ef9a
 class UserSerializer(serializers.ModelSerializer):

@@ -21,24 +21,28 @@ const SignUp = () => {
     );
 }
 
-const Login = () => {
-    const { value: email, inputProps: emailProps } = useInput("");
+const Login = (props) => {
+    const { value: username, inputProps: usernameProps } = useInput("");
     const { value: password, inputProps: passwordProps } = useInput("");
     return (
-        <form>
+        <form onSubmit={evnt => {
+            evnt.preventDefault();
+            props.handleLogin({ username, password }); 
+        }}>
             <label>Email:</label>
-            <input type="email" {...emailProps} />
+            <input type="email" {...usernameProps} />
             <label>Password:</label>
             <input type="password" {...passwordProps} />
+            <input type="submit" />
         </form>
     );
 }
 
-const loginForm = () => {
+const loginForm = (handleLogin) => {
     return (
         <div>
             <p>Login</p>
-            <Login />
+            <Login handleLogin={handleLogin} />
             <SignUp />
             <p>Sign up?</p>
         </div>

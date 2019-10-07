@@ -56,7 +56,7 @@ const App = () => {
     if (!localStorage.getItem('usertoken'))
       return;
     else {
-      getLoggedInUser(localStorage.getItem('usertoken'))
+      getLoggedInUser(localStorage.getItem('usertoken')).then(result => console.log(result))
       //then other user-related things
     }
   }, []);
@@ -97,7 +97,7 @@ const App = () => {
           {/* <Route path="/" component={userHome}/> */}
           <Route path="/addentry" component={moodForm} />
           <Route path="/editscales" component={scaleEditor} />
-          <Route path="/" component={loginForm} />
+          <Route path="/" render={() => loginForm(handleLogin)} />
         </Switch>
       </main>
       <footer></footer>

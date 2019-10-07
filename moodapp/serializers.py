@@ -3,20 +3,28 @@ from rest_framework_jwt.settings import api_settings
 from django.contrib.auth.models import User
 from .models import *
 
-class MoodScaleSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = MoodScale
-        fields = ['scaleName', 'scaleType', 'user']
 
 class ScaleItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = ScaleItem
         fields = ['index', 'alias', 'moodScale']
 
+class MoodScaleSerializer(serializers.ModelSerializer):
+    scaleItems = ScaleItemSerializer(many=True, read_only=True)
+    class Meta:
+        model = MoodScale
+        fields = ['scaleName', 'scaleType', 'scaleItems', 'user']
+
 class MoodLogSerializer(serializers.ModelSerializer):
     class Meta:
         model = MoodLog
         fields = ['madeOn', 'notes', 'user']
+
+class UserDataSerializer(serializers.ModelSerializer):
+    moodScales = MoodScaleSerializer(many=True, read_only=True)
+    class Meta:
+        model = User
+        fields = ['username', 'id', 'moodScales']
 
 # credit to tutorial https://medium.com/@dakota.lillie/django-react-jwt-authentication-5015ee00ef9a
 class UserSerializer(serializers.ModelSerializer):

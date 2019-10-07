@@ -42,7 +42,7 @@ const getLoggedInUser = (token) =>
             Authorization: `JWT ${token}`
         }
     })
-    .then(res => res.json);
+    .then(res => res.json());
 
 export {
     getLoggedInUser,

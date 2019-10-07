@@ -28,6 +28,9 @@ def current_user(request):
     serializer = UserSerializer(request.user)
     return Response(serializer.data)
 
+def currentuserdata(request):
+    serializer = UserDataSerializer(request.user)
+    return Response(serializer.data)
 
 class UserList(APIView):
     # must be allowany so they can sign up without a login

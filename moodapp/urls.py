@@ -9,6 +9,7 @@ router.register(r'scaleitems', views.ScaleItemViewSet)
 router.register(r'moodlogs', views.MoodLogViewSet)
 
 urlpatterns = [
+    path('currentuserdata/', views.currentuserdata),
     path('current_user/', views.current_user),
     path('users/', views.UserList.as_view()),
     path('', include(router.urls)),

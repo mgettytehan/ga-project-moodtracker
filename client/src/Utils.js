@@ -36,8 +36,17 @@ const getTokenForUser = (user) =>
     )
     .then(res => res.json());
 
+const getLoggedInUser = (token) =>
+    fetch('/api/currentuserdata/', {
+        headers: {
+            Authorization: `JWT ${token}`
+        }
+    })
+    .then(res => res.json);
+
 export {
+    getLoggedInUser,
+    getTokenForUser,
     useInput,
     signUpUser,
-    getTokenForUser
 };

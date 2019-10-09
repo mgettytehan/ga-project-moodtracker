@@ -1,4 +1,5 @@
 import React, { useReducer } from 'react';
+import { formReducer } from '../Utils.js';
 
 const moodScaleSelect = (moodScale = {}, handleChange = f=>f) => {
     return (
@@ -17,12 +18,10 @@ const moodScaleSelect = (moodScale = {}, handleChange = f=>f) => {
 }
 
 const MoodForm = (props) => {
-    const setFormValue = (state, action) => {
-        state[action.key] = action.value;
-        return state;
-    }
 
-    const [ moodValues, setMoodValues ] = useReducer(setFormValue, {});
+    const [ moodValues, setMoodValues ] = useReducer(formReducer, {});
+    //transform and submit moodValues
+
     return (
         <div>
             <form onSubmit={f=>f}>

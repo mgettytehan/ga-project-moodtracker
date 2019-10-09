@@ -15,6 +15,11 @@ const useInput = initialValue => {
     };
 };
 
+const formReducer = (state, action) => {
+    state[action.key] = action.value;
+    return state;
+}
+
 //shared ajax methods
 const signUpUser = (user) =>
     fetch('/api/users/',
@@ -45,6 +50,7 @@ const getLoggedInUser = (token) =>
     .then(res => res.json());
 
 export {
+    formReducer,
     getLoggedInUser,
     getTokenForUser,
     useInput,

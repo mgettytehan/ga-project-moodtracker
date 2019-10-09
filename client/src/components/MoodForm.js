@@ -1,70 +1,36 @@
-import React from 'react';
+import React, { useReducer } from 'react';
 
-// data for testing
-const testMoodScales = [
-    {
-        id: 1,
-        scaleName: "Happiness",
-        scaleType: "text",
-        scaleItems: [
-            {
-                index: 0,
-                alias: 1,
-                moodScale: 1
-            },
-            {
-                index: 1,
-                alias: 2,
-                moodScale: 1
-            }
-        ]
-    },
-    {
-        id: 2,
-        scaleName: "Gumption",
-        scaleType: "number",
-        scaleItems: [
-            {
-                index: 0,
-                alias: 1,
-                moodScale: 1
-            },
-            {
-                index: 1,
-                alias: 2,
-                moodScale: 1
-            },
-            {
-                index: 2,
-                alias: 3,
-                moodScale: 1
-            }
-        ]
-    },
-]
-
-const moodScaleSelect = moodScale => {
+const moodScaleSelect = (moodScale = {}, handleChange = f=>f) => {
     return (
         <div>
-            <span>{moodScale.scaleName}</span>
+            <div>{moodScale.scaleName}</div>
             {moodScale.scaleItems.map(scaleItem =>
                 (<label>
-                <input type="radio" name={moodScale.id} value={scaleItem.index} />
+                <input type="radio"
+                name={moodScale.id}
+                value={scaleItem.index}
+                onChange={evnt => handleChange( {key: evnt.target.name, value: evnt.target.value} )} />
                     {scaleItem.alias}
-                </label>))
-            }
+                </label>)
+            )}
         </div>);
 }
 
-const moodForm = () => {
+const MoodForm = (props) => {
+    const setFormValue = (state, action) => {
+        state[action.key] = action.value;
+        return state;
+    }
+
+    const [ moodValues, setMoodValues ] = useReducer(setFormValue, {});
     return (
         <div>
-            <form>
-                {testMoodScales.map(moodScale => moodScaleSelect(moodScale))}
+            <form onSubmit={f=>f}>
+                {props.moodScales.map(moodScale => moodScaleSelect(moodScale, setMoodValues))}
                 <input type="submit" value="Submit"/>
             </form>
         </div>
     );
 }
 
-export { moodForm };
+export { MoodForm };

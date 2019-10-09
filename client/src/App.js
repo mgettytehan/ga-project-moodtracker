@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Switch, Route } from 'react-router-dom'
 import { signUpUser, getTokenForUser, getLoggedInUser } from './Utils.js'
-import { moodForm } from './components/MoodForm.js'
+import { MoodForm } from './components/MoodForm.js'
 import { scaleEditor } from './components/ScaleEditor.js'
 import { loginForm } from './components/LoginForm.js'
 
@@ -11,6 +11,7 @@ const testData = {
   username: "someone@something.com",
   moodScales: [
     {
+      id: 0,
       scaleName: "Happiness",
       scaleType: "text",
       scaleItems: [
@@ -25,6 +26,7 @@ const testData = {
       ],
     },
     {
+      id: 1,
       scaleName: "Gumption",
       scaleType: "text",
       scaleItems: [
@@ -94,10 +96,10 @@ const App = () => {
       <header></header>
       <main>
         <Switch>
-          {/* <Route path="/" component={userHome}/> */}
-          <Route path="/addentry" component={moodForm} />
-          <Route path="/editscales" component={scaleEditor} />
+          <Route path="/addentry" render={() => <MoodForm moodScales={testData.moodScales} />} />
+          <Route path="/editscales" render={() => scaleEditor(testData)} />
           <Route path="/" render={() => loginForm(handleLogin)} />
+          {/* <Route path="/" component={userHome}/> */}
         </Switch>
       </main>
       <footer></footer>

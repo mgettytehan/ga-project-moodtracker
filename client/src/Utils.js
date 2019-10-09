@@ -15,10 +15,14 @@ const useInput = initialValue => {
     };
 };
 
-const formReducer = (state, action) => {
-    state[action.key] = action.value;
-    return state;
-}
+const formReducer = (state, {key, value, index, prop}) => {
+    const newState = {...state};
+    if (index && prop)
+        newState[key][index][prop] = value;
+    else 
+        newState[key] = value;
+    return newState;
+};
 
 //shared ajax methods
 const signUpUser = (user) =>

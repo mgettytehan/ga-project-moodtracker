@@ -76,9 +76,11 @@ const oneLog = (moodLog = {}) => {
 
 const historyTable = (moodLogs = []) => {
     return(
-        <table><tbody>
+        <table>
+            <tbody>
             {moodLogs.map(oneLog)}
-        </tbody></table>
+            </tbody>
+        </table>
     );
 }
 

@@ -7,13 +7,37 @@ from .models import *
 class ScaleItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = ScaleItem
-        fields = ['index', 'alias', 'moodScale']
+        fields = ['index', 'alias']
 
 class MoodScaleSerializer(serializers.ModelSerializer):
-    scaleItems = ScaleItemSerializer(many=True, read_only=True)
+    scaleItems = ScaleItemSerializer(many=True)
     class Meta:
         model = MoodScale
-        fields = ['scaleName', 'scaleType', 'scaleItems', 'user']
+        fields = ['scaleName', 'scaleType', 'user', 'scaleItems']
+
+    def create(self, validated_data):
+        scaleItemData = validated_data.pop('scaleItems')
+        moodScale = MoodScale.objects.create(**validated_data)
+        for scaleItem in scaleItemData:
+            ScaleItem.objects.create(moodScale=moodScale, **scaleItem)
+        return moodScale
+
+    def update(self, instance, validated_data):
+        scaleItemData = validated_data.pop('scaleItems')
+
+        scaleItemsList = []
+
+        for scaleItem in scaleItemData:
+            scaleItem, created = ScaleItem.objects.update_or_create(moodScale = instance, index = scaleItem["index"], defaults={"alias": scaleItem["alias"]})
+            scaleItemsList.append(scaleItem)
+
+        instance.scaleName = validated_data.get('scaleName', instance.scaleName)
+        instance.scaleType = validated_data.get('scaleType', instance.scaleType)
+        instance.user = validated_data.get('user', instance.user)
+        
+        instance.scaleItems.set(scaleItemsList)
+        instance.save()
+        return instance
 
 class MoodLogSerializer(serializers.ModelSerializer):
     class Meta:

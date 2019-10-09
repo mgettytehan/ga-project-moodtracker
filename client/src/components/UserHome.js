@@ -2,10 +2,12 @@ import React from 'react';
 
 const testMoodLogs = [
     {
-        madeOn: "some date",
+        id: 0,
+        madeOn: "2019-03-04",
         notes: "some note I made",
         moodScales: [
             {
+                id: 0,
                 scaleName: "Happiness",
                 scaleType: "text",
                 scaleItem: {
@@ -14,6 +16,7 @@ const testMoodLogs = [
                 }
             },
             {
+                id: 1,
                 scaleName: "Wellbeing",
                 scaleType: "text",
                 scaleItem: {
@@ -22,30 +25,69 @@ const testMoodLogs = [
                 }
             }
         ],
+    },
+    {
+        id: 1,
+        madeOn: "2019-03-05",
+        notes: "hey hey hey",
+        moodScales: [
+            {
+                id: 0,
+                scaleName: "Happiness",
+                scaleType: "text",
+                scaleItem: {
+                    index: 1,
+                    alias: 2
+                }
+            },
+            {
+                id: 1,
+                scaleName: "Wellbeing",
+                scaleType: "text",
+                scaleItem: {
+                    index: 0,
+                    alias: 1
+                }
+            }
+        ]
     }
 ]
 
-const tableRow = moodLog => {
+const moodRow = (moodScales = [], date = "no date") => {
     return(
         <tr>
-            <th>{moodLog.madeOn}</th>
-            <td></td>
+            <th>{date}</th>
+            {moodScales.map(moodScale => (<td>{moodScale.scaleItem.alias}</td>))}
         </tr>
     );
 }
 
-const historyTable = moodLogs => {
-    return(
-        <table>
-            <tr>{moodLogs.map(moodLog => (<th>moodLog.moodScale</th>))}</tr>
-        </table>
+const oneLog = (moodLog = {}) => {
+    return (
+        <>
+        <tr>
+            <th></th>
+            {moodLog.moodScales.map(moodScale => (<th>{moodScale.scaleName}</th>))}
+        </tr>
+        {moodRow(moodLog.moodScales)}
+        </>
     );
 }
 
-const userHome = () => {
+const historyTable = (moodLogs = []) => {
+    return(
+        <table><tbody>
+            {moodLogs.map(oneLog)}
+        </tbody></table>
+    );
+}
+
+const UserHome = () => {
     return (
         <div>
-            
+            {historyTable(testMoodLogs)}
         </div>
-    )
+    );
 }
+
+export { UserHome };

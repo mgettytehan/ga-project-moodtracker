@@ -4,6 +4,7 @@ import { signUpUser, getTokenForUser, getLoggedInUser } from './Utils.js'
 import { MoodForm } from './components/MoodForm.js'
 import { ScaleEditor } from './components/ScaleEditor.js'
 import { loginForm } from './components/LoginForm.js'
+import { UserHome } from './components/UserHome.js'
 
 //testData is user, scales and scale items
 const testData = {
@@ -98,8 +99,8 @@ const App = () => {
         <Switch>
           <Route path="/addentry" render={() => <MoodForm moodScales={testData.moodScales} />} />
           <Route path="/editscales" render={() => <ScaleEditor moodScales={testData.moodScales} />} />
+          <Route path="/home" component={UserHome}/>
           <Route path="/" render={() => loginForm(handleLogin)} />
-          {/* <Route path="/" component={userHome}/> */}
         </Switch>
       </main>
       <footer></footer>

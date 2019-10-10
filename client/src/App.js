@@ -51,50 +51,49 @@ const testData = {
 const App = () => {
   //not logged in by default
   const [ loggedIn, setLoggedIn ] = useState(false);
-  const [ appUser, setAppUser ] = useState({username: "", id: -1});
+  const [ userData, setUserData ] = useState({username: "", id: -1, moodScales: []});
 
   //try to get user on new load
   useEffect( () => {
-    // if no token, stay at default
-    if (!localStorage.getItem('usertoken'))
+    const userToken = localStorage.getItem('usertoken');
+    // if no token, stay at default logged out state
+    if (!userToken)
       return;
-    else {
-      getLoggedInUser(localStorage.getItem('usertoken')).then(result => console.log(result));
-      setLoggedIn(true);
-      //then other user-related things
-    }
+    else
+      getLoggedInUser(userToken)
+      .then(setUserData)
+      .then(() => setLoggedIn(true))
+      .catch(err => console.log(err));
   }, []);
 
   const logout = () => {
     localStorage.removeItem('usertoken');
     setLoggedIn(false);
-    setAppUser({username: "", id: -1});
+    setUserData({username: "", id: -1, moodScales: []});
   }
 
-  const logUserIn = (resJson) => {
-    localStorage.setItem('usertoken', resJson.token);
+  const logUserIn = (userToken) => {
+    localStorage.setItem('usertoken', userToken);
     setLoggedIn(true);
   }
 
   const handleLogin = (userData) => {
     getTokenForUser(userData)
     .then( resJson => {
-      logUserIn(resJson);
+      logUserIn(resJson.token);
     })
     .catch(err => console.log(err));
   }
 
   const handleSignUp = ({username, password}) => {
     signUpUser({username, password})
-    .then( resJson => {
-      logUserIn(resJson);
-    })
+    .then(logUserIn)
     .catch(err => console.log(err));
   }
 
   return (
     <div className="app">
-      <header></header>
+      <header>{loggedIn ? <button onClick={logout}>Logout</button> : ""}</header>
       <main>
         <Switch>
           {loggedIn ? (

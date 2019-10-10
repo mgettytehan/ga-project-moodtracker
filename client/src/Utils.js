@@ -53,10 +53,19 @@ const getLoggedInUser = (token) =>
     })
     .then(res => res.json());
 
+const sendNewScale = (moodScale, token) =>
+    fetch('/api/moodscales/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: `JWT ${token}` },
+        body: JSON.stringify(moodScale)
+    })
+    .then(res => res.json());
+
 export {
     formReducer,
     getLoggedInUser,
     getTokenForUser,
     useInput,
+    sendNewScale,
     signUpUser,
 };

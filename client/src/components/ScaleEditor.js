@@ -34,12 +34,33 @@ const moodScaleShow = (moodScale={}, openForEdit=f=>f) => {
     );
 }
 
-const ScaleEditor = ({moodScales}) => {
+const AddScale = ({addNewScale}) => {
+    const [ newScaleData, setNewScaleData ] = useReducer(formReducer, {scaleName: "", scaleType: "text", scaleItems: "2"});
+    
+    const handleChange = evnt => setNewScaleData({key: evnt.target.name, value: evnt.target.value});
+    const handleSubmit = evnt => {
+        evnt.preventDefault();
+        addNewScale(newScaleData);
+    }
+
+    return (
+        <form onSubmit={handleSubmit}>
+            <label>Name:</label>
+            <input type="text" name="scaleName" value={newScaleData.scaleName} onChange={handleChange} />
+            <label>Type:</label>
+            <select name="scaleType" value={newScaleData.scaleType} onChange={handleChange}>
+                <option value="text">Words/Numbers</option>
+            </select>
+            <label>Number: (2-15)</label>
+            <input type="number" name="scaleItems" min="2" max="15" value={newScaleData.scaleItems} onChange={handleChange}/>
+            <input type="submit" value="Add Scale" />
+        </form>
+    )
+}
+
+const ScaleEditor = ({moodScales, addNewScale}) => {
     const [editOpen, setEditOpen] = useState(-1);
     const getMoodScale = (id) => moodScales.find(moodScale => moodScale.id === id);
-
-    //handling the adding of a scale in local state, goes to App state + backend on save
-    
 
     return (
         <div>
@@ -50,7 +71,7 @@ const ScaleEditor = ({moodScales}) => {
                 moodScaleShow(scale, setEditOpen)
             ) :
             (<p>"You have no scales. Please add some to get started."</p>)}
-            <button>Add Scale</button>
+            <AddScale addNewScale={addNewScale} />
         </div>
     );
 }

@@ -13,7 +13,7 @@ class MoodScaleSerializer(serializers.ModelSerializer):
     scaleItems = ScaleItemSerializer(many=True)
     class Meta:
         model = MoodScale
-        fields = ['scaleName', 'scaleType', 'user', 'scaleItems']
+        fields = ['id', 'scaleName', 'scaleType', 'user', 'scaleItems']
 
     def create(self, validated_data):
         scaleItemData = validated_data.pop('scaleItems')

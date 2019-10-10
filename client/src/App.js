@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useR } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom'
 import { signUpUser, getTokenForUser, getLoggedInUser, sendNewScale } from './Utils.js'
 import { MoodForm } from './components/MoodForm.js'
@@ -7,6 +7,7 @@ import { LoginForm } from './components/LoginForm.js'
 import { UserHome } from './components/UserHome.js'
 
 const App = () => {
+
   //not logged in by default
   const [ loggedIn, setLoggedIn ] = useState(false);
   const [ userData, setUserData ] = useState({username: "", id: -1, moodScales: []});
@@ -15,8 +16,14 @@ const App = () => {
     const {scaleItems, ...newScale} = moodScale;
     const newScaleItems = Array.from({length: Number(scaleItems)}, (val, index) => ({ index, alias: index+1 }));
     sendNewScale({...newScale, scaleItems: newScaleItems, user: userData.id}, localStorage.getItem('usertoken'))
-    .then(result => console.log(result))
+    .then(newScale => setUserData(addScaleToUser(newScale)))
     .catch(err => console.log(err));
+  }
+
+  const addScaleToUser = (newScale) => {
+    const newUserState = {...userData};
+    newUserState.moodScales.push(newScale);
+    return newUserState;
   }
 
   //try to get user on new load

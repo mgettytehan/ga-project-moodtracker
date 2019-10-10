@@ -14,8 +14,7 @@ const moodScaleSelect = (moodScale = {}, handleChange = f=>f) => {
                 onChange={evnt => handleChange( {key: evnt.target.name, value: evnt.target.value} )} />
                     {scaleItem.alias}
                 </label>)) :
-            (<p>"Something went wrong - no items on this scale."</p>)
-            }
+            (<p>"Something went wrong - no items on this scale."</p>)}
         </div>);
 }
 

@@ -1,8 +1,8 @@
 import React, { useReducer, useState } from 'react';
 import { formReducer } from '../Utils';
 
-const Login = (props) => {
-    const [userValues, setUserValues] = useReducer(formReducer, "");
+const LoginForm = (props) => {
+    const [userValues, setUserValues] = useReducer(formReducer, {});
     //true for login screen, false for signup
     const [loginToggle, setLoginToggle] = useState(true);
 
@@ -11,7 +11,12 @@ const Login = (props) => {
     return (
         <form onSubmit={evnt => {
             evnt.preventDefault();
-            props.handleLogin(userValues); 
+            if (loginToggle)
+                props.handleLogin(userValues);
+            else {
+
+                props.handleSignUp(userValues);
+            }
         }}>
             <h2>{loginToggle ? "Login" : "Sign Up"}</h2>
             <label>Email:</label>
@@ -21,8 +26,8 @@ const Login = (props) => {
             {loginToggle ?
                 (<input type="submit" value="Login" />) :
                 (<><label>Confirm:</label>
-                <input type="confirmPassword" name="password" onChange={handleChange} required />
-                <input type="submit" value="Sign Up" /></>)
+                <input type="password" name="confirmPassword" onChange={handleChange} required />
+                <input type="submit" value="Sign Up" disabled={!(userValues.password === userValues.confirmPassword)} /></>)
             }
             <p onClick={() => setLoginToggle(!loginToggle)}>
                 {loginToggle ? "Sign Up" : "Login"}
@@ -31,12 +36,4 @@ const Login = (props) => {
     );
 }
 
-const loginForm = (handleLogin) => {
-    return (
-        <div>
-            <Login handleLogin={handleLogin} />
-        </div>
-    );
-}
-
-export { loginForm };
+export { LoginForm };

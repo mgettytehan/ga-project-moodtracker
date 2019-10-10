@@ -3,7 +3,7 @@ import { Switch, Route } from 'react-router-dom'
 import { signUpUser, getTokenForUser, getLoggedInUser } from './Utils.js'
 import { MoodForm } from './components/MoodForm.js'
 import { ScaleEditor } from './components/ScaleEditor.js'
-import { loginForm } from './components/LoginForm.js'
+import { LoginForm } from './components/LoginForm.js'
 import { UserHome } from './components/UserHome.js'
 
 //testData is user, scales and scale items
@@ -100,7 +100,7 @@ const App = () => {
           <Route path="/addentry" render={() => <MoodForm moodScales={testData.moodScales} />} />
           <Route path="/editscales" render={() => <ScaleEditor moodScales={testData.moodScales} />} />
           <Route path="/home" component={UserHome}/>
-          <Route path="/" render={() => loginForm(handleLogin)} />
+          <Route path="/" render={() => <LoginForm handleLogin={handleLogin} />} />
         </Switch>
       </main>
       <footer></footer>

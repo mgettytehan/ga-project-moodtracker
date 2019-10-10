@@ -1,39 +1,32 @@
-import React from 'react';
-import { useInput } from '../Utils';
-
-const SignUp = () => {
-    const { value: email, inputProps: emailProps } = useInput("");
-    const { value: username, inputProps: userProps } = useInput("");
-    const { value: password, inputProps: passwordProps } = useInput("");
-    const { value: confirm, inputProps: confirmProps } = useInput("");
-
-    return (
-        <form>
-            <label>Email:</label>
-            <input type="email" {...emailProps} />
-            <label>Username:</label>
-            <input type="text" {...userProps} />
-            <label>Password:</label>
-            <input type="password" {...passwordProps} />
-            <label>Confirm:</label>
-            <input type="password" {...confirmProps} />
-        </form>
-    );
-}
+import React, { useReducer, useState } from 'react';
+import { formReducer } from '../Utils';
 
 const Login = (props) => {
-    const { value: username, inputProps: usernameProps } = useInput("");
-    const { value: password, inputProps: passwordProps } = useInput("");
+    const [userValues, setUserValues] = useReducer(formReducer, "");
+    //true for login screen, false for signup
+    const [loginToggle, setLoginToggle] = useState(true);
+
+    const handleChange = evnt => setUserValues({ key: evnt.target.name, value: evnt.target.value });
+
     return (
         <form onSubmit={evnt => {
             evnt.preventDefault();
-            props.handleLogin({ username, password }); 
+            props.handleLogin(userValues); 
         }}>
+            <h2>{loginToggle ? "Login" : "Sign Up"}</h2>
             <label>Email:</label>
-            <input type="email" {...usernameProps} />
+            <input type="email" name="username" onChange={handleChange} required />
             <label>Password:</label>
-            <input type="password" {...passwordProps} />
-            <input type="submit" />
+            <input type="password" name="password" onChange={handleChange} required />
+            {loginToggle ?
+                (<input type="submit" value="Login" />) :
+                (<><label>Confirm:</label>
+                <input type="confirmPassword" name="password" onChange={handleChange} required />
+                <input type="submit" value="Sign Up" /></>)
+            }
+            <p onClick={() => setLoginToggle(!loginToggle)}>
+                {loginToggle ? "Sign Up" : "Login"}
+            </p>
         </form>
     );
 }
@@ -41,10 +34,7 @@ const Login = (props) => {
 const loginForm = (handleLogin) => {
     return (
         <div>
-            <p>Login</p>
             <Login handleLogin={handleLogin} />
-            <SignUp />
-            <p>Sign up?</p>
         </div>
     );
 }

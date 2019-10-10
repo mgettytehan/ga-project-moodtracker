@@ -24,10 +24,9 @@ class MoodLogViewSet(viewsets.ModelViewSet):
 
 @api_view(['GET'])
 # for user refreshing, visiting while still logged in
-def current_user(request):
-    serializer = UserSerializer(request.user)
-    return Response(serializer.data)
-
+# def current_user(request):
+#     serializer = UserSerializer(request.user)
+#     return Response(serializer.data)
 def currentuserdata(request):
     serializer = UserDataSerializer(request.user)
     return Response(serializer.data)

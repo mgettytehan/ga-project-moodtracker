@@ -1,8 +1,9 @@
 import React, { useReducer, useState } from 'react';
 import { formReducer } from '../Utils.js';
 
-const ScaleEdit = ({moodScale}) => {
+const ScaleEdit = ({moodScale, cancelEdit}) => {
     const [ formData, setFormData ] = useReducer(formReducer, moodScale);
+
     return (
         <form>
             <input type="text" name="scaleName" value={formData.scaleName} onChange={evnt => setFormData({key: evnt.target.name, value: evnt.target.value})} />
@@ -13,7 +14,7 @@ const ScaleEdit = ({moodScale}) => {
                 name="scaleItems"
                 value={scaleItem.alias}
                 onChange={evnt => setFormData({key: evnt.target.name, value: evnt.target.value, index: evnt.target.dataset.index, prop: evnt.target.dataset.prop})} />))}
-            <input type="button" value="Cancel" />
+            <input type="button" value="Cancel" onClick={() => cancelEdit(-1)} />
             <input type="submit" value="Save" />
         </form>
     );
@@ -32,11 +33,15 @@ const moodScaleShow = (moodScale, openForEdit) => {
 const ScaleEditor = ({moodScales}) => {
     const [editOpen, setEditOpen] = useState(-1);
     const getMoodScale = (id) => moodScales.find(moodScale => moodScale.id === id);
+
+    //handling the adding of a scale in local state, goes to App state + backend on save
+    
+
     return (
         <div>
             {moodScales.map(scale =>
                 editOpen == scale.id ?
-                (<ScaleEdit moodScale={getMoodScale(editOpen)} />) :
+                (<ScaleEdit moodScale={getMoodScale(editOpen)} cancelEdit={setEditOpen} />) :
                 moodScaleShow(scale, setEditOpen)
             )}
             <button>Add Scale</button>

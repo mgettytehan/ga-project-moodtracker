@@ -11,12 +11,7 @@ const LoginForm = (props) => {
     return (
         <form onSubmit={evnt => {
             evnt.preventDefault();
-            if (loginToggle)
-                props.handleLogin(userValues);
-            else {
-
-                props.handleSignUp(userValues);
-            }
+            loginToggle ? props.handleLogin(userValues) : props.handleSignUp(userValues);
         }}>
             <h2>{loginToggle ? "Login" : "Sign Up"}</h2>
             <label>Email:</label>

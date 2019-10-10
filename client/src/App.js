@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Switch, Route } from 'react-router-dom'
+import { Switch, Route, Redirect } from 'react-router-dom'
 import { signUpUser, getTokenForUser, getLoggedInUser } from './Utils.js'
 import { MoodForm } from './components/MoodForm.js'
 import { ScaleEditor } from './components/ScaleEditor.js'
@@ -50,8 +50,8 @@ const testData = {
 
 const App = () => {
   //not logged in by default
-  const { loggedIn, setLoggedIn } = useState(false);
-  const { appUser, setAppUser } = useState({username: "", id: -1});
+  const [ loggedIn, setLoggedIn ] = useState(false);
+  const [ appUser, setAppUser ] = useState({username: "", id: -1});
 
   //try to get user on new load
   useEffect( () => {
@@ -59,7 +59,8 @@ const App = () => {
     if (!localStorage.getItem('usertoken'))
       return;
     else {
-      getLoggedInUser(localStorage.getItem('usertoken')).then(result => console.log(result))
+      getLoggedInUser(localStorage.getItem('usertoken')).then(result => console.log(result));
+      setLoggedIn(true);
       //then other user-related things
     }
   }, []);
@@ -73,7 +74,6 @@ const App = () => {
   const logUserIn = (resJson) => {
     localStorage.setItem('usertoken', resJson.token);
     setLoggedIn(true);
-    //setAppUser here - still testing recieving id back as well as username
   }
 
   const handleLogin = (userData) => {
@@ -84,8 +84,8 @@ const App = () => {
     .catch(err => console.log(err));
   }
 
-  const handleSignup = (userData) => {
-    signUpUser(userData)
+  const handleSignUp = ({username, password}) => {
+    signUpUser({username, password})
     .then( resJson => {
       logUserIn(resJson);
     })
@@ -97,10 +97,26 @@ const App = () => {
       <header></header>
       <main>
         <Switch>
-          <Route path="/addentry" render={() => <MoodForm moodScales={testData.moodScales} />} />
-          <Route path="/editscales" render={() => <ScaleEditor moodScales={testData.moodScales} />} />
-          <Route path="/home" component={UserHome}/>
-          <Route path="/" render={() => <LoginForm handleLogin={handleLogin} />} />
+          {loggedIn ? (
+          <>
+            <Route path="/addentry">
+              <MoodForm moodScales={testData.moodScales} />
+            </Route>
+            <Route path="/editscales">
+              <ScaleEditor moodScales={testData.moodScales} />
+            </Route>
+            <Route path="/home">
+              <UserHome />
+            </Route>
+            <Route exact path="/">
+              <Redirect to="/home" />
+            </Route>
+          </>
+          ) : (
+          <Route path="/">
+              <LoginForm handleLogin={handleLogin} handleSignUp={handleSignUp}/>
+          </Route>
+          )}
         </Switch>
       </main>
       <footer></footer>

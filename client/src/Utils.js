@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 // custom hook for monitoring change in forms
 const useInput = initialValue => {

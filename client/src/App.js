@@ -6,48 +6,6 @@ import { ScaleEditor } from './components/ScaleEditor.js'
 import { LoginForm } from './components/LoginForm.js'
 import { UserHome } from './components/UserHome.js'
 
-//testData is user, scales and scale items
-const testData = {
-  id: 1,
-  username: "someone@something.com",
-  moodScales: [
-    {
-      id: 0,
-      scaleName: "Happiness",
-      scaleType: "text",
-      scaleItems: [
-        {
-          index: 0,
-          alias: "1"
-        },
-        {
-          index: 1,
-          alias: "2"
-        }
-      ],
-    },
-    {
-      id: 1,
-      scaleName: "Gumption",
-      scaleType: "text",
-      scaleItems: [
-        {
-          index: 0,
-          alias: "1"
-        },
-        {
-          index: 1,
-          alias: "2"
-        },
-        {
-          index: 2,
-          alias: "3"
-        }
-      ]
-    }
-  ]
-}
-
 const App = () => {
   //not logged in by default
   const [ loggedIn, setLoggedIn ] = useState(false);
@@ -99,10 +57,10 @@ const App = () => {
           {loggedIn ? (
           <>
             <Route path="/addentry">
-              <MoodForm moodScales={testData.moodScales} />
+              <MoodForm moodScales={userData.moodScales} />
             </Route>
             <Route path="/editscales">
-              <ScaleEditor moodScales={testData.moodScales} />
+              <ScaleEditor moodScales={userData.moodScales} />
             </Route>
             <Route path="/home">
               <UserHome />

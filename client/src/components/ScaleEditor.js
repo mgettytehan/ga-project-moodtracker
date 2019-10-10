@@ -1,11 +1,16 @@
 import React, { useReducer, useState } from 'react';
 import { formReducer } from '../Utils.js';
 
-const ScaleEdit = ({moodScale={}, cancelEdit=f=>f}) => {
+const ScaleEdit = ({moodScale={}, updateScale=f=>f, cancelEdit=f=>f}) => {
     const [ formData, setFormData ] = useReducer(formReducer, moodScale);
 
+    const handleSubmit = evnt => {
+        evnt.preventDefault();
+        updateScale({...moodScale, ...formData});
+    }
+
     return (
-        <form>
+        <form onSubmit={handleSubmit}>
             <input type="text" name="scaleName" value={formData.scaleName} onChange={evnt => setFormData({key: evnt.target.name, value: evnt.target.value})} />
             {formData.scaleItems ?
             formData.scaleItems.map(scaleItem =>
@@ -58,7 +63,7 @@ const AddScale = ({addNewScale}) => {
     )
 }
 
-const ScaleEditor = ({moodScales, addNewScale}) => {
+const ScaleEditor = ({moodScales, addNewScale, updateScale}) => {
     const [editOpen, setEditOpen] = useState(-1);
     const getMoodScale = (id) => moodScales.find(moodScale => moodScale.id === id);
 
@@ -67,7 +72,7 @@ const ScaleEditor = ({moodScales, addNewScale}) => {
             {moodScales ?
             moodScales.map(scale =>
                 editOpen == scale.id ?
-                (<ScaleEdit moodScale={getMoodScale(editOpen)} cancelEdit={setEditOpen} />) :
+                (<ScaleEdit moodScale={getMoodScale(editOpen)} updateScale={updateScale} cancelEdit={setEditOpen} />) :
                 moodScaleShow(scale, setEditOpen)
             ) :
             (<p>"You have no scales. Please add some to get started."</p>)}

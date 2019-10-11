@@ -44,6 +44,19 @@ class MoodLogSerializer(serializers.ModelSerializer):
         model = MoodLog
         fields = ['madeOn', 'notes', 'user', 'scaleItems']
 
+# below for pulling mood logs for display
+class ReverseScaleItemSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ScaleItem
+        fields = ['alias', 'moodScale']
+
+class UserMoodLogSerializer(serializers.ModelSerializer):
+    scaleItems = ReverseScaleItemSerializer(many=True)
+    class Meta:
+        model = MoodLog
+        fields = ['madeOn', 'notes', 'scaleItems']
+
+
 class UserDataSerializer(serializers.ModelSerializer):
     moodScales = MoodScaleSerializer(many=True, read_only=True)
     class Meta:

@@ -20,7 +20,7 @@ class MoodLogViewSet(viewsets.ModelViewSet):
     serializer_class = MoodLogSerializer
 
 class MoodLogList(generics.ListAPIView):
-    serializer_class = MoodLogSerializer
+    serializer_class = UserMoodLogSerializer
 
     def get_queryset(self):
         user = self.request.user

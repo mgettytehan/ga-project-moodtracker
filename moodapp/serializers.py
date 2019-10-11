@@ -7,7 +7,7 @@ from .models import *
 class ScaleItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = ScaleItem
-        fields = ['index', 'alias']
+        fields = ['index', 'alias', 'id']
 
 class MoodScaleSerializer(serializers.ModelSerializer):
     scaleItems = ScaleItemSerializer(many=True)

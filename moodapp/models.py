@@ -23,6 +23,7 @@ class MoodLog(models.Model):
 class MoodInMoodLog(models.Model):
     class Meta:
         unique_together = ['moodLog', 'scaleItem']
+        auto_created = True
     
     moodLog = models.ForeignKey('MoodLog', on_delete=models.CASCADE, related_name='moodInMoodLogs')
     scaleItem = models.ForeignKey('ScaleItem', on_delete=models.CASCADE, related_name='moodInMoodLogs')

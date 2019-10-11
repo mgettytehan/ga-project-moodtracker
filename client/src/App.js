@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom'
-import { signUpUser, getTokenForUser, getLoggedInUser, sendNewScale, sendUpdatedScale } from './Utils.js'
+import { signUpUser, getTokenForUser, getLoggedInUser, sendNewLog, sendNewScale, sendUpdatedScale } from './Utils.js'
 import { MoodForm } from './components/MoodForm.js'
 import { ScaleEditor } from './components/ScaleEditor.js'
 import { LoginForm } from './components/LoginForm.js'
@@ -54,6 +54,16 @@ const App = () => {
       .catch(err => console.log(err));
   }
 
+  const createMoodLog = logData => {
+    let {notes, ...scaleData} = logData;
+    if (!notes)
+      notes = "No notes";
+    const scaleItems = Object.values(scaleData);
+    sendNewLog({user: userData.id, notes, scaleItems}, localStorage.getItem('usertoken'))
+      .then(console.log)
+      .catch(err => console.log(err))
+  }
+
   const logout = () => {
     localStorage.removeItem('usertoken');
     setLoggedIn(false);
@@ -87,7 +97,7 @@ const App = () => {
           {loggedIn ? (
           <>
             <Route path="/addentry">
-              <MoodForm moodScales={userData.moodScales} />
+              <MoodForm moodScales={userData.moodScales} createMoodLog={createMoodLog} />
             </Route>
             <Route path="/editscales">
               <ScaleEditor moodScales={userData.moodScales} addNewScale={addNewScale} updateScale={updateScale} />

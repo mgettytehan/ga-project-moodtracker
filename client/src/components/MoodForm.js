@@ -10,24 +10,33 @@ const moodScaleSelect = (moodScale = {}, handleChange = f=>f) => {
                 (<label>
                 <input type="radio"
                 name={moodScale.id}
-                value={scaleItem.index}
-                onChange={evnt => handleChange( {key: evnt.target.name, value: evnt.target.value} )} />
+                value={scaleItem.id}
+                onChange={handleChange} />
                     {scaleItem.alias}
                 </label>)) :
             (<p>"Something went wrong - no items on this scale."</p>)}
-        </div>);
+        </div>
+    );
 }
 
-const MoodForm = (props) => {
+const MoodForm = ({moodScales, createMoodLog}) => {
 
-    const [ moodValues, setMoodValues ] = useReducer(formReducer, {});
+    const [ moodValues, setMoodValues ] = useReducer(formReducer, {notes: ""});
     //transform and submit moodValues
+    const handleChange = evnt => {
+        setMoodValues({key: evnt.target.name, value:evnt.target.value})
+    }
+    const handleSubmit = evnt => {
+        evnt.preventDefault();
+        createMoodLog(moodValues);
+    };
 
     return (
         <div>
-            <form onSubmit={f=>f}>
-                {props.moodScales ? props.moodScales.map(moodScale => moodScaleSelect(moodScale, setMoodValues)) : (<p>"Please make some scales to start creating logs."</p>)}
-                <input type="submit" value="Submit" disabled={!props.moodScale} />
+            <form onSubmit={handleSubmit}>
+                {moodScales ? moodScales.map(moodScale => moodScaleSelect(moodScale, handleChange)) : (<p>"Please make some scales to start creating logs."</p>)}
+                <input type="text" name="notes" value={moodValues.notes} onChange={handleChange}/>
+                <input type="submit" value="Submit" disabled={!moodScales} />
             </form>
         </div>
     );

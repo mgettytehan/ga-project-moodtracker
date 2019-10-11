@@ -53,6 +53,14 @@ const getLoggedInUser = (token) =>
     })
     .then(res => res.json());
 
+const sendNewLog = (moodLog, token) =>
+    fetch('/api/moodlogs/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: `JWT ${token}` },
+        body: JSON.stringify(moodLog)
+    })
+    .then(res => res.json());
+
 const sendNewScale = (moodScale, token) =>
     fetch('/api/moodscales/', {
         method: 'POST',
@@ -74,6 +82,7 @@ export {
     getLoggedInUser,
     getTokenForUser,
     useInput,
+    sendNewLog,
     sendNewScale,
     sendUpdatedScale,
     signUpUser,

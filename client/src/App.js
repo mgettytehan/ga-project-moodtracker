@@ -1,10 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import { Switch, Route, Redirect } from 'react-router-dom'
+import { Switch, Route, Redirect, Link } from 'react-router-dom'
 import { signUpUser, getTokenForUser, getLoggedInUser, sendNewLog, sendNewScale, sendUpdatedScale } from './Utils.js'
 import { MoodForm } from './components/MoodForm.js'
 import { ScaleEditor } from './components/ScaleEditor.js'
 import { LoginForm } from './components/LoginForm.js'
 import { UserHome } from './components/UserHome.js'
+
+const LandingPage = () => {
+  return(
+    <div>
+      <h1>Big Mood.</h1>
+      <p>A short description here.</p>
+      <div><Link to="/login"><button>Login</button></Link></div>
+    </div>
+  )
+}
 
 const App = () => {
 
@@ -24,6 +34,15 @@ const App = () => {
       .then(() => setLoggedIn(true))
       .catch(err => console.log(err));
     }, []);
+
+    const PrivateRoute = ({ children, ...rest }) =>
+      (<Route {...rest} 
+        render={() =>
+          loggedIn ?
+          (children) :
+          (<Redirect to="/login"/>)
+        }
+      />);
 
   const addScaleToUser = newScale => {
     const newUserState = {...userData};
@@ -100,26 +119,21 @@ const App = () => {
       <header>{loggedIn ? <button onClick={logout}>Logout</button> : ""}</header>
       <main>
         <Switch>
-          {loggedIn ? (
-          <>
-            <Route path="/addentry">
-              <MoodForm moodScales={userData.moodScales} createMoodLog={createMoodLog} />
-            </Route>
-            <Route path="/editscales">
-              <ScaleEditor moodScales={userData.moodScales} addNewScale={addNewScale} updateScale={updateScale} />
-            </Route>
-            <Route path="/home">
-              <UserHome moodScales={getJustScales(userData.moodScales)} />
-            </Route>
-            <Route exact path="/">
-              <Redirect to="/home" />
-            </Route>
-          </>
-          ) : (
-          <Route path="/">
-              <LoginForm handleLogin={handleLogin} handleSignUp={handleSignUp}/>
+          <PrivateRoute path="/addentry">
+            <MoodForm moodScales={userData.moodScales} createMoodLog={createMoodLog} />
+          </PrivateRoute>
+          <PrivateRoute path="/editscales">
+            <ScaleEditor moodScales={userData.moodScales} addNewScale={addNewScale} updateScale={updateScale} />
+          </PrivateRoute>
+          <PrivateRoute path="/home">
+            <UserHome moodScales={getJustScales(userData.moodScales)} />
+          </PrivateRoute>
+          <Route path="/login">
+            <LoginForm handleLogin={handleLogin} handleSignUp={handleSignUp}/>
           </Route>
-          )}
+          <Route path="/">
+            <LandingPage />
+          </Route>
         </Switch>
       </main>
       <footer></footer>

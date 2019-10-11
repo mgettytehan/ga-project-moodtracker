@@ -89,6 +89,12 @@ const App = () => {
     .catch(err => console.log(err));
   }
 
+  const getJustScales = (moodScales=[]) =>
+    moodScales.reduce((acc, moodScale) => {
+      acc[moodScale.id] = {scaleName: moodScale.scaleName, scaleType: moodScale.scaleType};
+      return acc;
+    }, {});
+
   return (
     <div className="app">
       <header>{loggedIn ? <button onClick={logout}>Logout</button> : ""}</header>
@@ -103,7 +109,7 @@ const App = () => {
               <ScaleEditor moodScales={userData.moodScales} addNewScale={addNewScale} updateScale={updateScale} />
             </Route>
             <Route path="/home">
-              <UserHome />
+              <UserHome moodScales={getJustScales(userData.moodScales)} />
             </Route>
             <Route exact path="/">
               <Redirect to="/home" />

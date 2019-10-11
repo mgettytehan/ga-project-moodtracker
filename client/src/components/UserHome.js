@@ -1,63 +1,11 @@
-import React from 'react';
-
-const testMoodLogs = [
-    {
-        id: 0,
-        madeOn: "2019-03-04",
-        notes: "some note I made",
-        moodScales: [
-            {
-                id: 0,
-                scaleName: "Happiness",
-                scaleType: "text",
-                scaleItem: {
-                    index: 1,
-                    alias: 2
-                }
-            },
-            {
-                id: 1,
-                scaleName: "Wellbeing",
-                scaleType: "text",
-                scaleItem: {
-                    index: 0,
-                    alias: 1
-                }
-            }
-        ],
-    },
-    {
-        id: 1,
-        madeOn: "2019-03-05",
-        notes: "hey hey hey",
-        moodScales: [
-            {
-                id: 0,
-                scaleName: "Happiness",
-                scaleType: "text",
-                scaleItem: {
-                    index: 1,
-                    alias: 2
-                }
-            },
-            {
-                id: 1,
-                scaleName: "Wellbeing",
-                scaleType: "text",
-                scaleItem: {
-                    index: 0,
-                    alias: 1
-                }
-            }
-        ]
-    }
-]
+import React, { useState, useEffect } from 'react';
+import { getMoodLogs } from '../Utils.js'
 
 const moodRow = (moodScales = [], date = "no date") => {
     return(
         <tr>
             <th>{date}</th>
-            {moodScales.map(moodScale => (<td>{moodScale.scaleItem.alias}</td>))}
+            {moodScales.map(moodScale => (<td>{moodScale.alias}</td>))}
         </tr>
     );
 }
@@ -67,14 +15,15 @@ const oneLog = (moodLog = {}) => {
         <>
         <tr>
             <th></th>
-            {moodLog.moodScales.map(moodScale => (<th>{moodScale.scaleName}</th>))}
+            {moodLog.scaleItems ? moodLog.scaleItems.map(scaleItem => (<th>{scaleItem.scaleName}</th>)) : "No mood found"}
         </tr>
-        {moodRow(moodLog.moodScales)}
+        {moodRow(moodLog.scaleItems, moodLog.madeOn)}
         </>
     );
 }
 
 const historyTable = (moodLogs = []) => {
+    console.log(moodLogs)
     return(
         <table>
             <tbody>
@@ -84,10 +33,32 @@ const historyTable = (moodLogs = []) => {
     );
 }
 
-const UserHome = () => {
+const constructLogs = (moodLogs, moodScales) => 
+    moodLogs.map(
+        moodLog => {
+            const {scaleItems, ...newMoodLog} = moodLog;
+            const newScaleItems = scaleItems.map(
+                scaleItem => {
+                    const scaleData = moodScales[scaleItem.moodScale]
+                    return {...scaleItem, ...scaleData};
+                }
+            )
+            return {...newMoodLog, scaleItems: newScaleItems};
+        }
+    );
+
+const UserHome = ({moodScales={}}) => {
+    const [tableMoodScales, setTableMoodScales] = useState([]);
+    const getTableData = () => {
+        getMoodLogs(localStorage.getItem('usertoken'))
+            .then(moodLogs => setTableMoodScales(constructLogs(moodLogs, moodScales)))
+            .catch(err => console.log(err));
+    }
+
+    useEffect(getTableData, []);
     return (
         <div>
-            {historyTable(testMoodLogs)}
+            {historyTable(tableMoodScales)}
         </div>
     );
 }

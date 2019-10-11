@@ -53,6 +53,14 @@ const getLoggedInUser = (token) =>
     })
     .then(res => res.json());
 
+const getMoodLogs = (token) => 
+    fetch('/api/moodloglist/', {
+        headers: {
+            Authorization: `JWT ${token}`
+        }
+    })
+    .then(res => res.json());
+
 const sendNewLog = (moodLog, token) =>
     fetch('/api/moodlogs/', {
         method: 'POST',
@@ -80,6 +88,7 @@ const sendUpdatedScale = (moodScale, token) =>
 export {
     formReducer,
     getLoggedInUser,
+    getMoodLogs,
     getTokenForUser,
     useInput,
     sendNewLog,

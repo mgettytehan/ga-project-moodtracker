@@ -18,6 +18,7 @@ class MoodLog(models.Model):
     madeOn = models.DateTimeField(auto_now_add=True)
     notes = models.CharField(max_length=400)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='moodLogs')
+    scaleItems = models.ManyToManyField('ScaleItem', through='MoodInMoodLog', related_name='moodLogs')
 
 class MoodInMoodLog(models.Model):
     class Meta:

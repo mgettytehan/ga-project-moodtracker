@@ -1,4 +1,4 @@
-from rest_framework import viewsets, permissions, status
+from rest_framework import viewsets, permissions, status, generics
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -19,14 +19,18 @@ class MoodLogViewSet(viewsets.ModelViewSet):
     queryset = MoodLog.objects.all()
     serializer_class = MoodLogSerializer
 
+class MoodLogList(generics.ListAPIView):
+    serializer_class = MoodLogSerializer
+
+    def get_queryset(self):
+        user = self.request.user
+        return MoodLog.objects.filter(user=user)
+
 # Note: current format is from tutorial.
 # To refactor and normalize according to regular pattern
 
 @api_view(['GET'])
 # for user refreshing, visiting while still logged in
-# def current_user(request):
-#     serializer = UserSerializer(request.user)
-#     return Response(serializer.data)
 def currentuserdata(request):
     serializer = UserDataSerializer(request.user)
     return Response(serializer.data)

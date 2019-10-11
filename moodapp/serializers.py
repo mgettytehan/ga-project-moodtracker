@@ -42,7 +42,7 @@ class MoodScaleSerializer(serializers.ModelSerializer):
 class MoodLogSerializer(serializers.ModelSerializer):
     class Meta:
         model = MoodLog
-        fields = ['madeOn', 'notes', 'user']
+        fields = ['madeOn', 'notes', 'user', 'scaleItems']
 
 class UserDataSerializer(serializers.ModelSerializer):
     moodScales = MoodScaleSerializer(many=True, read_only=True)
@@ -57,6 +57,7 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ['username', 'id']
 
 class UserSerializerWithToken(serializers.ModelSerializer):
+    moodScales = MoodScaleSerializer(many=True, read_only=True)
     token = serializers.SerializerMethodField()
     password = serializers.CharField(write_only=True)
 
@@ -78,4 +79,4 @@ class UserSerializerWithToken(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['token', 'username', 'password']
+        fields = ['token', 'username', 'password', 'moodScales']

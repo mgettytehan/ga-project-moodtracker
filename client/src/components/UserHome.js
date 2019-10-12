@@ -1,10 +1,28 @@
 import React, { useState, useEffect } from 'react';
 import { getMoodLogs } from '../Utils.js'
 
+const convertToAmPm = (hour) => {
+    if (hour === 0)
+        return "12 AM";
+    else if (hour < 12)
+        return hour + " AM";
+    else if (hour === 12)
+        return hour + " PM";
+    else
+        return (hour-12) + " PM";
+}
+
+const dateTimeFormat = (dateString) => {
+    const d = new Date(dateString);
+    console.log(d)
+    console.log(d.getMonth())
+    return (<span>{`${d.getMonth()+1}-${d.getDate()}`}<br/>at {`${convertToAmPm(d.getHours())}`}</span>);
+}
+
 const moodRow = (moodScales = [], date = "no date") => {
     return(
         <tr>
-            <th>{date}</th>
+            <th>{dateTimeFormat(date)}</th>
             {moodScales.map(moodScale => (<td>{moodScale.alias}</td>))}
         </tr>
     );

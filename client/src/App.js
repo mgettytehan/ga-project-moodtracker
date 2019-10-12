@@ -37,14 +37,14 @@ const App = () => {
       .catch(err => console.log(err));
     }, []);
 
-    const PrivateRoute = ({ children, ...rest }) =>
-      (<Route {...rest} 
-        render={() =>
-          loggedIn ?
-          (children) :
-          (<Redirect to="/login"/>)
-        }
-      />);
+  const PrivateRoute = ({ children, ...rest }) =>
+    (<Route {...rest} 
+      render={() =>
+        loggedIn ?
+        (children) :
+        (<Redirect to="/login"/>)
+      }
+    />);
 
   const addScaleToUser = newScale => {
     const newUserState = {...userData};
@@ -118,7 +118,7 @@ const App = () => {
 
   return (
     <div className="app">
-      <header><div className="logo">bgm</div>{loggedIn ? (<div><button onClick={logout}>Logout</button></div>) : ""}</header>
+      <header><div className="logo"><Link to={loggedIn ? "/home" : "/"}>bgm</Link></div>{loggedIn ? (<div><button onClick={logout}>Logout</button></div>) : ""}</header>
       <main>
         <Switch>
           <PrivateRoute path="/addentry">
@@ -130,9 +130,11 @@ const App = () => {
           <PrivateRoute path="/home">
             <UserHome moodScales={getJustScales(userData.moodScales)} />
           </PrivateRoute>
-          <Route path="/login">
-            <LoginForm handleLogin={handleLogin} handleSignUp={handleSignUp}/>
-          </Route>
+          <Route path="/login" render={
+            () => loggedIn ?
+            (<Redirect to="/home" />) :
+            (<LoginForm handleLogin={handleLogin} handleSignUp={handleSignUp}/>)
+          }/>
           <Route path="/">
             <LandingPage />
           </Route>

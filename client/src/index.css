@@ -10,6 +10,7 @@
   --accent-color: #9ca2c4;
   --text-color: #292929;
   --accent-text-color: #33435c;
+  --link-color: #4a6084;
 }
 
 body {
@@ -31,6 +32,11 @@ h1, h2, h3, h4, h5, h6 {
   text-align: center;
 }
 
+a {
+  color: var(--link-color);
+  text-decoration: underline;
+}
+
 header {
   padding: 15px;
   background-color: var(--accent-color);
@@ -39,14 +45,23 @@ header {
   box-shadow: 0px 1px 5px grey;
 }
 
+header button {
+  background-color: var(--bg-color);
+}
+
 .clickable {
   cursor: pointer;
-  color: var(--accent-text-color);
+  text-decoration: underline;
+  color: var(--link-color);
 }
 
 .logo {
   font-size: 2em;
   font-family: 'Open Serif', serif;
+}
+.logo a {
+  color: var(--text-color);
+  text-decoration: none;
 }
 
 h1.main-header {

@@ -24,6 +24,13 @@ const formReducer = (state, {key, value, index, prop}) => {
     return newState;
 };
 
+const processResponse = res => {
+    if (res.ok)
+        return res.json()
+    else
+        throw new Error("Network response not ok")
+}
+
 //shared ajax methods
 const signUpUser = (user) =>
     fetch('/api/users/',
@@ -33,7 +40,7 @@ const signUpUser = (user) =>
             body: JSON.stringify(user)
         }
     )
-    .then(res => res.json());
+    .then(processResponse);
 
 const getTokenForUser = (user) =>
     fetch('/token-auth/',
@@ -43,7 +50,7 @@ const getTokenForUser = (user) =>
             body: JSON.stringify(user)
         }
     )
-    .then(res => res.json());
+    .then(processResponse);
 
 const getLoggedInUser = (token) =>
     fetch('/api/currentuserdata/', {
@@ -59,7 +66,7 @@ const getMoodLogs = (token) =>
             Authorization: `JWT ${token}`
         }
     })
-    .then(res => res.json());
+    .then(processResponse);
 
 const sendNewLog = (moodLog, token) =>
     fetch('/api/moodlogs/', {
@@ -67,7 +74,7 @@ const sendNewLog = (moodLog, token) =>
         headers: { 'Content-Type': 'application/json', Authorization: `JWT ${token}` },
         body: JSON.stringify(moodLog)
     })
-    .then(res => res.json());
+    .then(processResponse);
 
 const sendNewScale = (moodScale, token) =>
     fetch('/api/moodscales/', {
@@ -75,7 +82,7 @@ const sendNewScale = (moodScale, token) =>
         headers: { 'Content-Type': 'application/json', Authorization: `JWT ${token}` },
         body: JSON.stringify(moodScale)
     })
-    .then(res => res.json());
+    .then(processResponse);
 
 const sendUpdatedScale = (moodScale, token) =>
     fetch(`/api/moodscales/${moodScale.id}/`, {
@@ -83,7 +90,7 @@ const sendUpdatedScale = (moodScale, token) =>
         headers: { 'Content-Type': 'application/json', Authorization: `JWT ${token}` },
         body: JSON.stringify(moodScale)
     })
-    .then(res => res.json());
+    .then(processResponse);
 
 export {
     formReducer,

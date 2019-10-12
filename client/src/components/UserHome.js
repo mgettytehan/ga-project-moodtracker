@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { getMoodLogs } from '../Utils.js'
 
 const convertToAmPm = (hour) => {
@@ -22,7 +23,7 @@ const dateTimeFormat = (dateString) => {
 const moodRow = (moodScales = [], date = "no date") => {
     return(
         <tr>
-            <th>{dateTimeFormat(date)}</th>
+            <th className="column-header">{dateTimeFormat(date)}</th>
             {moodScales.map(moodScale => (<td>{moodScale.alias}</td>))}
         </tr>
     );
@@ -76,6 +77,8 @@ const UserHome = ({moodScales={}}) => {
     useEffect(getTableData, []);
     return (
         <div>
+            <h2>Mood History</h2>
+            <Link to="/addentry"><button>New Entry</button></Link>
             {historyTable(tableMoodScales)}
         </div>
     );

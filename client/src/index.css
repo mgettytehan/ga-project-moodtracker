@@ -79,6 +79,18 @@ main {
   padding: 15px;
 }
 
+table {
+  width: 100%;
+  text-align: center;
+}
+.column-header {
+  text-align: left;
+}
+
+.log-table {
+  display: grid;
+}
+
 form {
   display: flex;
   flex-direction: column;

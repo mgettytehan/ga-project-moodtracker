@@ -14,17 +14,17 @@ const LoginForm = (props) => {
             loginToggle ? props.handleLogin(userValues) : props.handleSignUp(userValues);
         }}>
             <h2>{loginToggle ? "Login" : "Sign Up"}</h2>
-            <label>Email:</label>
+            <label>Email</label>
             <input type="email" name="username" onChange={handleChange} required />
-            <label>Password:</label>
+            <label>Password</label>
             <input type="password" name="password" onChange={handleChange} required />
             {loginToggle ?
-                (<input type="submit" value="Login" />) :
-                (<><label>Confirm:</label>
+                (<div className="button-container"><input type="submit" value="Login" /></div>) :
+                (<><label>Confirm</label>
                 <input type="password" name="confirmPassword" onChange={handleChange} required />
-                <input type="submit" value="Sign Up" disabled={!(userValues.password === userValues.confirmPassword)} /></>)
+                <div className="button-container"><input type="submit" value="Sign Up" disabled={!(userValues.password === userValues.confirmPassword)} /></div></>)
             }
-            <p onClick={() => setLoginToggle(!loginToggle)}>
+            <p className="clickable" onClick={() => setLoginToggle(!loginToggle)}>
                 {loginToggle ? "Sign Up" : "Login"}
             </p>
         </form>

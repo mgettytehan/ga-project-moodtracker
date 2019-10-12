@@ -9,9 +9,11 @@ import { UserHome } from './components/UserHome.js'
 const LandingPage = () => {
   return(
     <div>
-      <h1>Big Mood.</h1>
-      <p>A short description here.</p>
-      <div><Link to="/login"><button>Login</button></Link></div>
+      <h1 className="main-header">Big Mood.</h1>
+      <div className="intro-text">
+        <p>Log your mood the way you want to.</p>
+        <Link to="/login">Login or Sign Up</Link>
+      </div>
     </div>
   )
 }
@@ -116,7 +118,7 @@ const App = () => {
 
   return (
     <div className="app">
-      <header>{loggedIn ? <button onClick={logout}>Logout</button> : ""}</header>
+      <header><div className="logo">bgm</div>{loggedIn ? (<div><button onClick={logout}>Logout</button></div>) : ""}</header>
       <main>
         <Switch>
           <PrivateRoute path="/addentry">

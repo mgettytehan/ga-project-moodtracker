@@ -50,6 +50,10 @@ header button {
   background-color: var(--bg-color);
 }
 
+main {
+  max-width: 1250px;
+}
+
 .clickable {
   cursor: pointer;
   text-decoration: underline;
@@ -82,13 +86,13 @@ main {
 
 .table-container {
   margin: 0 auto;
-  width: 98vw;
+  width: 98%;
   overflow: scroll;
 }
 
 table {
   text-align: center;
-  margin: 20px 0;
+  margin: 20px auto;
   border: 2px solid var(--accent-color);
   border-collapse: collapse;
   font-size: 0.8em;
@@ -108,6 +112,8 @@ td, th {
 form {
   display: flex;
   flex-direction: column;
+  max-width: 650px;
+  margin: 0 auto;
 }
 
 form label {
@@ -119,7 +125,7 @@ button, input, select, option {
   color: var(--text-color);
 }
 
-button, input[type=submit] {
+button, input[type=submit], input[type=button] {
   border-radius: 10px;
   padding: 10px 15px;
   background-color: var(--accent-color);
@@ -128,7 +134,7 @@ button, input[type=submit] {
   margin: 5px;
 }
 
-input:not([type=submit]), select, option {
+input:not([type=submit]):not([type=button]), select, option {
   border-radius: 5px;
   padding: 5px;
   margin-bottom: 10px;
@@ -146,7 +152,8 @@ input[type=radio] {
 
 .mood-scale {
   text-align: center;
-  margin: 20px 0;
+  max-width: 650px;
+  margin: 20px auto;
 }
 
 .scale-items {

@@ -132,7 +132,7 @@ const App = () => {
     <div className="app">
       <header><div className="logo"><Link to={loggedIn ? "/home" : "/"}>bgm</Link></div>{loggedIn ? (<div><button onClick={logout}>Logout</button></div>) : ""}</header>
       <main>
-        {loggedIn ? (<div>Welcome, {userData.username}.</div>) : ""}
+        {loggedIn ? (<><div>Welcome, {userData.username}.</div><hr /></>) : ""}
         <Switch>
           <PrivateRoute path="/addentry">
             <MoodForm moodScales={userData.moodScales} createMoodLog={createMoodLog} />

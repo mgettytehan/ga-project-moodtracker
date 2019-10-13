@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { getMoodLogs } from '../Utils.js'
+import { getMoodLogs, colorSquare } from '../Utils.js'
 
 const convertToAmPm = (hour) => {
     if (hour === 0)
@@ -24,11 +24,18 @@ const sortByDate = (moodLog1, moodLog2) => {
     return Math.sign(date2.getTime() - date1.getTime());
 }
 
+const scaleItemDisplay = (alias, type) => {
+    if (type === "text")
+        return (<div className="scale-item">{alias}</div>);
+    else
+        return colorSquare(alias);
+}
+
 const moodRow = (scaleItems = [], date = "no date", notes = "") => {
     return(
         <tr>
             <th className="column-header">{dateTimeFormat(date)}</th>
-            {scaleItems.map(scaleItem => (<td>{scaleItem.alias}</td>))}
+            {scaleItems.map(scaleItem => (<td>{scaleItemDisplay(scaleItem.alias)}</td>))}
             <td className="notes">{notes}</td>
         </tr>
     );
@@ -86,6 +93,7 @@ const UserHome = ({moodScales={}}) => {
     return (
         <div>
             <Link to="/editscales"><button>Edit Scales</button></Link>
+            <hr/>
             <h2>Mood History</h2>
             <Link to="/addentry"><button>New Entry</button></Link>
             {historyTable(tableMoodScales)}

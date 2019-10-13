@@ -1,6 +1,6 @@
 import React, { useReducer, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { formReducer } from '../Utils.js';
+import { formReducer, colorSquare } from '../Utils.js';
 
 const colorOptionEditor = (scaleItem, saveData) =>
     <input type="color"
@@ -20,7 +20,7 @@ const textOptionEditor = (scaleItem, saveData) =>
         onChange={evnt => saveData({key: evnt.target.name, value: evnt.target.value, index: evnt.target.dataset.index, prop: evnt.target.dataset.prop})}
     />
 
-const showScaleItems = (scaleItems, scaleType, saveData=f=>f) => {
+const showScaleOptions = (scaleItems, scaleType, saveData=f=>f) => {
     if (!scaleItems)
         return "Error: no items detected";
     if (scaleType === "text")
@@ -40,20 +40,29 @@ const ScaleEdit = ({moodScale={}, updateScale=f=>f, cancelEdit=f=>f}) => {
     return (
         <form onSubmit={handleSubmit}>
             <input type="text" name="scaleName" value={formData.scaleName} onChange={evnt => setFormData({key: evnt.target.name, value: evnt.target.value})} />
-            {showScaleItems(formData.scaleItems, formData.scaleType, setFormData)}
+            <div className="scale-items">{showScaleOptions(formData.scaleItems, formData.scaleType, setFormData)}</div>
             <input type="button" value="Cancel" onClick={() => cancelEdit(-1)} />
             <input type="submit" value="Save" disabled={!formData.scaleItems}/>
         </form>
     );
 }
 
+const showScaleItems = (alias, scaleType) => {
+    if (scaleType === "text")
+        return (<div className="scale-item">{alias}</div>);
+    if (scaleType === "color")
+        return colorSquare(alias);
+}
+
 const moodScaleShow = (moodScale={}, openForEdit=f=>f) => {
     return (
-        <div>
-            <div>{moodScale.scaleName}</div>
-            {moodScale.scaleItems ?
-            moodScale.scaleItems.map(scaleItem => <div>{scaleItem.alias}</div>) :
-            (<p>Error: scale has no items.</p>)}
+        <div className="mood-scale">
+            <div><strong>{moodScale.scaleName}</strong></div>
+            <div className="scale-items">
+                {moodScale.scaleItems ?
+                moodScale.scaleItems.map(scaleItem => <div>{showScaleItems(scaleItem.alias, moodScale.scaleType)}</div>) :
+                (<p>Error: scale has no items.</p>)}
+            </div>
             <button id={moodScale.id} onClick={evnt => openForEdit(Number(evnt.target.id))}>Edit</button>
         </div>
     );
@@ -77,7 +86,7 @@ const AddScale = ({addNewScale}) => {
                 <option value="text">Words/Numbers</option>
                 <option value="color">Colors</option>
             </select>
-            <label>Number: (2-15)</label>
+            <label>Number of items (2-15):</label>
             <input type="number" name="scaleItems" min="2" max="15" value={newScaleData.scaleItems} onChange={handleChange}/>
             <input type="submit" value="Add Scale" />
         </form>
@@ -91,6 +100,7 @@ const ScaleEditor = ({moodScales, addNewScale, updateScale}) => {
     return (
         <div>
             <div><Link to="/home">Back</Link></div>
+            <h2>Edit Scales</h2>
             {moodScales ?
             moodScales.map(scale =>
                 editOpen == scale.id ?
@@ -98,6 +108,8 @@ const ScaleEditor = ({moodScales, addNewScale, updateScale}) => {
                 moodScaleShow(scale, setEditOpen)
             ) :
             (<p>"You have no scales. Please add some to get started."</p>)}
+            <hr />
+            <h2>Add New Scale</h2>
             <AddScale addNewScale={addNewScale} />
         </div>
     );

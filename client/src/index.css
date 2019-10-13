@@ -114,7 +114,7 @@ form label {
   padding: 2px 5px;
 }
 
-button, input {
+button, input, select, option {
   font-size: 22px;
   color: var(--text-color);
 }
@@ -125,10 +125,10 @@ button, input[type=submit] {
   background-color: var(--accent-color);
   margin: 5px;
   box-shadow: 2px 2px 3px grey;
-  margin: 0;
+  margin: 5px;
 }
 
-input:not([type=submit]) {
+input:not([type=submit]), select, option {
   border-radius: 5px;
   padding: 5px;
   margin-bottom: 10px;
@@ -153,4 +153,8 @@ input[type=radio] {
   display: flex;
   flex-flow: row wrap;
   justify-content: space-around;
+}
+
+.scale-item {
+  padding: 10px;
 }

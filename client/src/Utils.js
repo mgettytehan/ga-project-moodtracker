@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 
 // custom hook for monitoring change in forms
 const useInput = initialValue => {
@@ -29,6 +29,11 @@ const processResponse = res => {
         return res.json();
     else
         throw new Error("Network response not ok");
+}
+
+const colorSquare = (alias) => {
+    const style = {backgroundColor: alias, width: "50px", height: "50px", display: "inline-block"}
+    return (<div style={style}></div>)
 }
 
 //shared ajax methods
@@ -93,6 +98,7 @@ const sendUpdatedScale = (moodScale, token) =>
     .then(processResponse);
 
 export {
+    colorSquare,
     formReducer,
     getLoggedInUser,
     getMoodLogs,

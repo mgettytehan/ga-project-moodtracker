@@ -1,14 +1,12 @@
 import React, { useReducer } from 'react';
 import { Link, useHistory } from 'react-router-dom';
-import { formReducer } from '../Utils.js';
+import { formReducer, colorSquare } from '../Utils.js';
 
 const scaleItemAlias = (alias, type) => {
     if (type === "text")
         return alias;
-    if (type === "color") {
-        const colorStyle = {backgroundColor: alias, width: "50px", height: "50px"}
-        return (<div style={colorStyle}></div>)
-    }
+    if (type === "color")
+        return colorSquare(alias);
 }
 
 const moodScaleSelect = (moodScale = {}, handleChange = f=>f) => {
@@ -51,7 +49,7 @@ const MoodForm = ({moodScales, createMoodLog}) => {
             <h2>How are you feeling?</h2>
             <form onSubmit={handleSubmit}>
                 {moodScales ? moodScales.map(moodScale => moodScaleSelect(moodScale, handleChange)) : (<p>"Please make some scales to start creating logs."</p>)}
-                <div><label>Notes</label><br/><input type="text" name="notes" value={moodValues.notes} onChange={handleChange}/></div>
+                <label>Notes</label><input type="text" name="notes" value={moodValues.notes} onChange={handleChange}/>
                 <input type="submit" value="Submit" disabled={!moodScales} />
             </form>
         </div>

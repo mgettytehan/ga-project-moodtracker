@@ -29,7 +29,7 @@ const moodRow = (scaleItems = [], date = "no date", notes = "") => {
         <tr>
             <th className="column-header">{dateTimeFormat(date)}</th>
             {scaleItems.map(scaleItem => (<td>{scaleItem.alias}</td>))}
-            <td>{notes}</td>
+            <td className="notes">{notes}</td>
         </tr>
     );
 }

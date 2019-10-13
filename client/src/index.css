@@ -81,18 +81,28 @@ main {
 }
 
 .table-container {
+  margin: 0 auto;
   width: 98vw;
   overflow: scroll;
 }
 
 table {
-  width: 100%;
   text-align: center;
   margin: 20px 0;
-  background-color: var(--bg-color-light);
+  border: 2px solid var(--accent-color);
+  border-collapse: collapse;
+  font-size: 0.8em;
 }
-.column-header {
+
+.column-header, .notes {
   text-align: left;
+}
+
+td, th {
+  min-width: 100px;
+  padding: 5px;
+  background-color: var(--bg-color-light);
+  border: 3px solid var(--accent-color);
 }
 
 form {
@@ -125,6 +135,22 @@ input:not([type=submit]) {
   border: 2px inset lightgrey;
 }
 
+input[type=radio] {
+  width: 1em;
+  height: 1em;
+}
+
 .button-container {
   text-align: center;
+}
+
+.mood-scale {
+  text-align: center;
+  margin: 20px 0;
+}
+
+.scale-items {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-around;
 }

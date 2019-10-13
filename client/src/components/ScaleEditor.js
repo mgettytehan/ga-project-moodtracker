@@ -1,4 +1,5 @@
 import React, { useReducer, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { formReducer } from '../Utils.js';
 
 const ScaleEdit = ({moodScale={}, updateScale=f=>f, cancelEdit=f=>f}) => {
@@ -69,6 +70,7 @@ const ScaleEditor = ({moodScales, addNewScale, updateScale}) => {
 
     return (
         <div>
+            <div><Link to="/home">Back</Link></div>
             {moodScales ?
             moodScales.map(scale =>
                 editOpen == scale.id ?

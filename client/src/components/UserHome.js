@@ -15,16 +15,15 @@ const convertToAmPm = (hour) => {
 
 const dateTimeFormat = (dateString) => {
     const d = new Date(dateString);
-    console.log(d)
-    console.log(d.getMonth())
     return (<span>{`${d.getMonth()+1}-${d.getDate()}`}<br/>at {`${convertToAmPm(d.getHours())}`}</span>);
 }
 
-const moodRow = (moodScales = [], date = "no date") => {
+const moodRow = (scaleItems = [], date = "no date", notes = "") => {
     return(
         <tr>
             <th className="column-header">{dateTimeFormat(date)}</th>
-            {moodScales.map(moodScale => (<td>{moodScale.alias}</td>))}
+            {scaleItems.map(scaleItem => (<td>{scaleItem.alias}</td>))}
+            <td>{notes}</td>
         </tr>
     );
 }
@@ -35,20 +34,22 @@ const oneLog = (moodLog = {}) => {
         <tr>
             <th></th>
             {moodLog.scaleItems ? moodLog.scaleItems.map(scaleItem => (<th>{scaleItem.scaleName}</th>)) : "No mood found"}
+            <th>Notes</th>
         </tr>
-        {moodRow(moodLog.scaleItems, moodLog.madeOn)}
+        {moodRow(moodLog.scaleItems, moodLog.madeOn, moodLog.notes)}
         </>
     );
 }
 
 const historyTable = (moodLogs = []) => {
-    console.log(moodLogs)
     return(
+        <div className="table-container">
         <table>
             <tbody>
             {moodLogs.map(oneLog)}
             </tbody>
         </table>
+        </div>
     );
 }
 
@@ -68,6 +69,7 @@ const constructLogs = (moodLogs, moodScales) =>
 
 const UserHome = ({moodScales={}}) => {
     const [tableMoodScales, setTableMoodScales] = useState([]);
+
     const getTableData = () => {
         getMoodLogs(localStorage.getItem('usertoken'))
             .then(moodLogs => setTableMoodScales(constructLogs(moodLogs, moodScales)))
@@ -77,6 +79,7 @@ const UserHome = ({moodScales={}}) => {
     useEffect(getTableData, []);
     return (
         <div>
+            <Link to="/editscales"><button>Edit Scales</button></Link>
             <h2>Mood History</h2>
             <Link to="/addentry"><button>New Entry</button></Link>
             {historyTable(tableMoodScales)}

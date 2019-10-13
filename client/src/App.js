@@ -105,6 +105,7 @@ const App = () => {
   }
 
   const handleSignUp = ({username, password}) => {
+    console.log(username, password)
     signUpUser({username, password})
     .then(logUserIn)
     .catch(err => console.log(err));

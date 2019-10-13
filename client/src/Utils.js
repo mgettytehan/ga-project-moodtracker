@@ -26,9 +26,9 @@ const formReducer = (state, {key, value, index, prop}) => {
 
 const processResponse = res => {
     if (res.ok)
-        return res.json()
+        return res.json();
     else
-        throw new Error("Network response not ok")
+        throw new Error("Network response not ok");
 }
 
 //shared ajax methods
@@ -58,7 +58,7 @@ const getLoggedInUser = (token) =>
             Authorization: `JWT ${token}`
         }
     })
-    .then(res => res.json());
+    .then(processResponse);
 
 const getMoodLogs = (token) => 
     fetch('/api/moodloglist/', {

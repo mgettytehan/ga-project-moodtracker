@@ -82,7 +82,7 @@ const UserHome = ({moodScales={}}) => {
             .catch(err => console.log(err));
     }
 
-    useEffect(getTableData, []);
+    useEffect(getTableData, [moodScales]);
     return (
         <div>
             <Link to="/editscales"><button>Edit Scales</button></Link>

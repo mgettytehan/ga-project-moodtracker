@@ -102,17 +102,24 @@ const App = () => {
 
   const handleLogin = (userData) => {
     getTokenForUser(userData)
-    .then( resJson => {
-      logUserIn(resJson.token);
+    .then(resJson => {
+      const {token, ...userData} = resJson;
+      logUserIn(token);
+      setUserData(userData);
     })
     .catch(err => console.log(err));
   }
 
   const handleSignUp = ({username, password}) => {
-    console.log(username, password)
     signUpUser({username, password})
-    .then(logUserIn)
-    .catch(err => console.log(err));
+      .then(user => {
+        logUserIn(user.token);
+      })
+      .then( () => 
+        getLoggedInUser(localStorage.getItem('usertoken'))
+          .then(setUserData)
+      )
+      .catch(err => console.log(err));
   }
 
   const getJustScales = (moodScales=[]) =>

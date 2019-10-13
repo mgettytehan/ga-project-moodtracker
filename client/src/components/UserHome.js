@@ -18,6 +18,12 @@ const dateTimeFormat = (dateString) => {
     return (<span>{`${d.getMonth()+1}-${d.getDate()}`}<br/>at {`${convertToAmPm(d.getHours())}`}</span>);
 }
 
+const sortByDate = (moodLog1, moodLog2) => {
+    const date1 = new Date(moodLog1.madeOn);
+    const date2 = new Date(moodLog2.madeOn);
+    return Math.sign(date2.getTime() - date1.getTime());
+}
+
 const moodRow = (scaleItems = [], date = "no date", notes = "") => {
     return(
         <tr>
@@ -72,7 +78,7 @@ const UserHome = ({moodScales={}}) => {
 
     const getTableData = () => {
         getMoodLogs(localStorage.getItem('usertoken'))
-            .then(moodLogs => setTableMoodScales(constructLogs(moodLogs, moodScales)))
+            .then(moodLogs => setTableMoodScales((constructLogs(moodLogs, moodScales)).sort(sortByDate)))
             .catch(err => console.log(err));
     }
 

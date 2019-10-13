@@ -63,7 +63,11 @@ const App = () => {
 
   const addNewScale = moodScale => {
     const {scaleItems, ...newScale} = moodScale;
-    const newScaleItems = Array.from({length: Number(scaleItems)}, (val, index) => ({ index, alias: index+1 }));
+    let newScaleItems;
+    if (newScale.scaleType === "text")
+      newScaleItems = Array.from({length: Number(scaleItems)}, (val, index) => ({ index, alias: index+1 }));
+    else if (newScale.scaleType === "color")
+      newScaleItems = Array.from({length: Number(scaleItems)}, (val, index) => ({ index, alias: "#000000" }));
     sendNewScale({...newScale, scaleItems: newScaleItems, user: userData.id}, localStorage.getItem('usertoken'))
       .then(newScale => setUserData(addScaleToUser(newScale)))
       .catch(err => console.log(err));

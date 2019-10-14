@@ -15,7 +15,20 @@ The target user wants to keep a log of their mood so that they can monitor their
 
 In the current incarnation of the application, a user can log in, create and edit scales (text/number or color), log their moods, and view their mood history.
 
+## Technologies
+
+- CSS3
+- React.js
+- React Router
+- Django
+- Django REST Framework
+- Django REST Framework JWT
+
 ## Wireframes and Diagrams
+
+### Preliminary Wireframes
+
+![Preliminary wireframes for app](https://github.com/mgettytehan/ga-project-moodtracker/blob/master/wireframes-erd/wireframes.JPG)
 
 ### ERD
 

@@ -5,14 +5,18 @@ const LoginForm = (props) => {
     const [userValues, setUserValues] = useReducer(formReducer, {});
     //true for login screen, false for signup
     const [loginToggle, setLoginToggle] = useState(true);
+    //for login/sign-up failures
+    const [sendFailed, setSendFailed] = useState(false);
 
     const handleChange = evnt => setUserValues({ key: evnt.target.name, value: evnt.target.value });
+    const handleSubmit = evnt => {
+        evnt.preventDefault();
+        const result = loginToggle ? props.handleLogin(userValues) : props.handleSignUp(userValues);
+        setSendFailed(!result);
+    };
 
     return (
-        <form onSubmit={evnt => {
-            evnt.preventDefault();
-            loginToggle ? props.handleLogin(userValues) : props.handleSignUp(userValues);
-        }}>
+        <form onSubmit={handleSubmit}>
             <h2>{loginToggle ? "Login" : "Sign Up"}</h2>
             <label>Email</label>
             <input type="email" name="username" onChange={handleChange} required />
@@ -24,7 +28,8 @@ const LoginForm = (props) => {
                 <input type="password" name="confirmPassword" onChange={handleChange} required />
                 <div className="button-container"><input type="submit" value="Sign Up" disabled={!(userValues.password === userValues.confirmPassword)} /></div></>)
             }
-            <p className="clickable" onClick={() => setLoginToggle(!loginToggle)}>
+            <p className="warning-text">{sendFailed ? (loginToggle ? "login has failed" : "sign-up has failed") : ""}</p>
+            <p className="clickable" onClick={() => {setLoginToggle(!loginToggle); setSendFailed(false);}}>
                 {loginToggle ? "Sign Up" : "Login"}
             </p>
         </form>

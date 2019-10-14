@@ -106,8 +106,9 @@ const App = () => {
       const {token, user} = resJson;
       logUserIn(token);
       setUserData(user);
+      return true;
     })
-    .catch(err => console.log(err));
+    .catch(err => {console.log(err); return false;});
   }
 
   const handleSignUp = ({username, password}) => {
@@ -117,9 +118,9 @@ const App = () => {
       })
       .then( () => 
         getLoggedInUser(localStorage.getItem('usertoken'))
-          .then(setUserData)
+          .then(user => { setUserData(user); return true;})
       )
-      .catch(err => console.log(err));
+      .catch(err => {console.log(err); return false;});
   }
 
   const getJustScales = (moodScales=[]) =>

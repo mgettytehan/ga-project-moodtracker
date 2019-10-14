@@ -9,6 +9,7 @@
   --bg-color-light: #e8e9ee;
   --bg-color: #d1d4dd;
   --accent-color: #9ca2c4;
+  --accent-color-dark: #7c819c;
   --text-color: #292929;
   --accent-text-color: #33435c;
   --link-color: #4a6084;
@@ -47,7 +48,8 @@ header {
 }
 
 header button {
-  background-color: var(--bg-color);
+  background-color: var(--bg-color-light);
+  color: var(--text-color);
 }
 
 main {
@@ -128,10 +130,15 @@ button, input, select, option {
 button, input[type=submit], input[type=button] {
   border-radius: 10px;
   padding: 10px 15px;
-  background-color: var(--accent-color);
+  background-color: var(--accent-color-dark);
+  color: var(--bg-color-light);
   margin: 5px;
   box-shadow: 2px 2px 3px grey;
   margin: 5px;
+}
+
+button.disabled, input[type=submit].disabled, input[type=button].disabled {
+  cursor: not-allowed;
 }
 
 input:not([type=submit]):not([type=button]), select, option {
@@ -141,9 +148,14 @@ input:not([type=submit]):not([type=button]), select, option {
   border: 2px inset lightgrey;
 }
 
-input[type=radio] {
+input[type=radio]{
   width: 1em;
   height: 1em;
+}
+
+input[type=color] {
+  width: 2em;
+  height: 2em;
 }
 
 .button-container {

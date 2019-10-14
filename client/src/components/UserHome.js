@@ -55,7 +55,6 @@ const oneLog = (moodLog = {}) => {
 }
 
 const historyTable = (moodLogs = []) => {
-    console.log(moodLogs);
     return(
         <div className="table-container">
         <table>

@@ -103,9 +103,9 @@ const App = () => {
   const handleLogin = (userData) => {
     getTokenForUser(userData)
     .then(resJson => {
-      const {token, ...userData} = resJson;
+      const {token, user} = resJson;
       logUserIn(token);
-      setUserData(userData);
+      setUserData(user);
     })
     .catch(err => console.log(err));
   }

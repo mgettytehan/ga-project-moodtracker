@@ -140,7 +140,8 @@ REST_FRAMEWORK = {
 }
 
 JWT_AUTH = {
-    'JWT_RESPONSE_PAYLOAD_HANDLER': 'project4.utils.my_jwt_response_handler'
+    'JWT_RESPONSE_PAYLOAD_HANDLER': 'project4.utils.my_jwt_response_handler',
+    'JWT_VERIFY_EXPIRATION': False,
 }
 
 django_heroku.settings(locals())

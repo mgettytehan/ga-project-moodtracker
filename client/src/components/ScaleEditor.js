@@ -17,6 +17,7 @@ const textOptionEditor = (scaleItem, saveData) =>
         data-prop="alias"
         name="scaleItems"
         value={scaleItem.alias}
+        maxLength="30"
         onChange={evnt => saveData({key: evnt.target.name, value: evnt.target.value, index: evnt.target.dataset.index, prop: evnt.target.dataset.prop})}
     />
 
@@ -39,7 +40,8 @@ const ScaleEdit = ({moodScale={}, updateScale=f=>f, cancelEdit=f=>f}) => {
 
     return (
         <form onSubmit={handleSubmit}>
-            <input type="text" name="scaleName" value={formData.scaleName} onChange={evnt => setFormData({key: evnt.target.name, value: evnt.target.value})} />
+            <input type="text" name="scaleName" value={formData.scaleName} maxLength="30"
+            onChange={evnt => setFormData({key: evnt.target.name, value: evnt.target.value})} />
             <div className="scale-items">{showScaleOptions(formData.scaleItems, formData.scaleType, setFormData)}</div>
             <input type="button" value="Cancel" onClick={() => cancelEdit(-1)} />
             <input type="submit" value="Save" disabled={!formData.scaleItems}/>

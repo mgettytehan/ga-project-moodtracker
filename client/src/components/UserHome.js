@@ -25,18 +25,18 @@ const sortByDate = (moodLog1, moodLog2) => {
 }
 
 const scaleItemDisplay = (alias, type) => {
-    if (type === "text")
-        return (<div className="scale-item">{alias}</div>);
-    else
+    if (type === "color")
         return colorSquare(alias);
+    else
+        return (<div className="scale-item">{alias}</div>);
 }
 
-const moodRow = (scaleItems = [], date = "no date", notes = "") => {
+const moodRow = (moodLog = {scaleItems:[]}) => {
     return(
         <tr>
-            <th className="column-header">{dateTimeFormat(date)}</th>
-            {scaleItems.map(scaleItem => (<td>{scaleItemDisplay(scaleItem.alias)}</td>))}
-            <td className="notes">{notes}</td>
+            <th className="column-header">{dateTimeFormat(moodLog.madeOn)}</th>
+            <td className="notes">{moodLog.notes}</td>
+            {moodLog.scaleItems.map(scaleItem => (<td>{scaleItemDisplay(scaleItem.alias, scaleItem.scaleType)}</td>))}
         </tr>
     );
 }
@@ -46,15 +46,16 @@ const oneLog = (moodLog = {}) => {
         <>
         <tr>
             <th></th>
-            {moodLog.scaleItems ? moodLog.scaleItems.map(scaleItem => (<th>{scaleItem.scaleName}</th>)) : "No mood found"}
             <th>Notes</th>
+            {moodLog.scaleItems ? moodLog.scaleItems.map(scaleItem => (<th>{scaleItem.scaleName}</th>)) : "No mood found"}
         </tr>
-        {moodRow(moodLog.scaleItems, moodLog.madeOn, moodLog.notes)}
+        {moodRow(moodLog)}
         </>
     );
 }
 
 const historyTable = (moodLogs = []) => {
+    console.log(moodLogs);
     return(
         <div className="table-container">
         <table>

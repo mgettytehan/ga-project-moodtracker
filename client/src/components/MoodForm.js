@@ -49,7 +49,7 @@ const MoodForm = ({moodScales, createMoodLog}) => {
             <h2>How are you feeling?</h2>
             <form onSubmit={handleSubmit}>
                 {moodScales ? moodScales.map(moodScale => moodScaleSelect(moodScale, handleChange)) : (<p>"Please make some scales to start creating logs."</p>)}
-                <label>Notes</label><input type="text" name="notes" value={moodValues.notes} onChange={handleChange}/>
+                <label>Notes</label><input type="text" name="notes" value={moodValues.notes} onChange={handleChange} maxLength="400"/>
                 <input type="submit" value="Submit" disabled={!moodScales} />
             </form>
         </div>

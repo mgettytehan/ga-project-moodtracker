@@ -16,7 +16,7 @@ const LandingPage = () => {
       </div>
     </div>
   )
-}
+};
 
 const App = () => {
 
@@ -85,7 +85,6 @@ const App = () => {
       notes = "No notes";
     const scaleItems = Object.values(scaleData);
     sendNewLog({user: userData.id, notes, scaleItems}, localStorage.getItem('usertoken'))
-      .then(console.log)
       .catch(err => console.log(err))
   }
 
@@ -106,9 +105,8 @@ const App = () => {
       const {token, user} = resJson;
       logUserIn(token);
       setUserData(user);
-      return true;
     })
-    .catch(err => {console.log(err); return false;});
+    .catch(e => console.log(e))
   }
 
   const handleSignUp = ({username, password}) => {

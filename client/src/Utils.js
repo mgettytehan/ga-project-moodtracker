@@ -55,7 +55,7 @@ const getTokenForUser = (user) =>
             body: JSON.stringify(user)
         }
     )
-    .then(processResponse);
+    .then(processResponse)
 
 const getLoggedInUser = (token) =>
     fetch('/api/currentuserdata/', {

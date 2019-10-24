@@ -11,8 +11,14 @@ const LoginForm = (props) => {
     const handleChange = evnt => setUserValues({ key: evnt.target.name, value: evnt.target.value });
     const handleSubmit = evnt => {
         evnt.preventDefault();
-        const result = loginToggle ? props.handleLogin(userValues) : props.handleSignUp(userValues);
-        setSendFailed(!result);
+        try {
+            props.handleLogin(userValues);
+            setSendFailed(true);
+        }
+        catch (e) {
+            console.log(e);
+            setSendFailed(false);
+        }
     };
 
     return (

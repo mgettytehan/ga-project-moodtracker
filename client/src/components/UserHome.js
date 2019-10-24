@@ -36,7 +36,7 @@ const moodRow = (moodLog = {scaleItems:[]}) => {
         <tr>
             <th className="column-header">{dateTimeFormat(moodLog.madeOn)}</th>
             <td className="notes">{moodLog.notes}</td>
-            {moodLog.scaleItems.map(scaleItem => (<td>{scaleItemDisplay(scaleItem.alias, scaleItem.scaleType)}</td>))}
+            {moodLog.scaleItems.map(scaleItem => (<td key={scaleItem.index}>{scaleItemDisplay(scaleItem.alias, scaleItem.scaleType)}</td>))}
         </tr>
     );
 }

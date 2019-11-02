@@ -32,7 +32,7 @@ const processResponse = res => {
 }
 
 const colorSquare = (alias) => {
-    const style = {backgroundColor: alias, width: "50px", height: "50px", display: "inline-block"}
+    const style = {backgroundColor: alias, width: "50px", height: "50px", display: "inline-block", margin: "10px"}
     return (<div style={style}></div>)
 }
 

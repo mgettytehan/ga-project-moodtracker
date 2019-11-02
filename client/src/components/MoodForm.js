@@ -11,11 +11,11 @@ const scaleItemAlias = (alias, type) => {
 
 const moodScaleSelect = (moodScale = {}, handleChange = f=>f) => {
     return (
-        <div className="mood-scale">
+        <div className="mood-scale" key={`${moodScale.id}-scale`}>
             <div><strong>{moodScale.scaleName}</strong></div>
             <div className="scale-items">{moodScale.scaleItems ?
             moodScale.scaleItems.map(scaleItem =>
-                (<label>
+                (<label key={`${scaleItem.id}-option`}>
                 <input type="radio"
                 name={moodScale.id}
                 value={scaleItem.id}

@@ -34,23 +34,23 @@ const scaleItemDisplay = (alias, type) => {
 const moodRow = (moodLog = {scaleItems:[]}) => {
     return(
         <tr>
-            <th className="column-header">{dateTimeFormat(moodLog.madeOn)}</th>
-            <td className="notes">{moodLog.notes}</td>
-            {moodLog.scaleItems.map(scaleItem => (<td key={scaleItem.index}>{scaleItemDisplay(scaleItem.alias, scaleItem.scaleType)}</td>))}
+            <th className="column-header" key={`${moodLog.madeOn}-header`}>{dateTimeFormat(moodLog.madeOn)}</th>
+            <td className="notes" key={`${moodLog.madeOn}-notes`}>{moodLog.notes}</td>
+            {moodLog.scaleItems.map(scaleItem => (<td key={`${moodLog.madeOn}-${scaleItem.alias}`}>{scaleItemDisplay(scaleItem.alias, scaleItem.scaleType)}</td>))}
         </tr>
     );
 }
 
 const oneLog = (moodLog = {}) => {
     return (
-        <>
+        <React.Fragment key={`${moodLog.madeOn}-log`}>
         <tr>
-            <th></th>
-            <th>Notes</th>
-            {moodLog.scaleItems ? moodLog.scaleItems.map(scaleItem => (<th>{scaleItem.scaleName}</th>)) : "No mood found"}
+            <th key="empty"></th>
+            <th key="notes">Notes</th>
+            {moodLog.scaleItems ? moodLog.scaleItems.map(scaleItem => (<th key={`${moodLog.madeOn}-${scaleItem.scaleName}`}>{scaleItem.scaleName}</th>)) : "No mood found"}
         </tr>
         {moodRow(moodLog)}
-        </>
+        </React.Fragment>
     );
 }
 

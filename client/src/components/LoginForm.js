@@ -12,7 +12,7 @@ const LoginForm = (props) => {
     const handleSubmit = evnt => {
         evnt.preventDefault();
         try {
-            props.handleLogin(userValues);
+            loginToggle ? props.handleLogin(userValues) : props.handleSignUp(userValues);
             setSendFailed(true);
         }
         catch (e) {

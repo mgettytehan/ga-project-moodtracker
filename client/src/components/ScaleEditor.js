@@ -8,6 +8,7 @@ const colorOptionEditor = (scaleItem, saveData) =>
         data-prop="alias"
         name="scaleItems"
         value={scaleItem.alias}
+        key={scaleItem.id}
         onChange={evnt => saveData({key: evnt.target.name, value: evnt.target.value, index: evnt.target.dataset.index, prop: evnt.target.dataset.prop})}
     />
 
@@ -18,6 +19,7 @@ const textOptionEditor = (scaleItem, saveData) =>
         name="scaleItems"
         value={scaleItem.alias}
         maxLength="30"
+        key={scaleItem.id}
         onChange={evnt => saveData({key: evnt.target.name, value: evnt.target.value, index: evnt.target.dataset.index, prop: evnt.target.dataset.prop})}
     />
 
@@ -58,11 +60,11 @@ const showScaleItems = (alias, scaleType) => {
 
 const moodScaleShow = (moodScale={}, openForEdit=f=>f) => {
     return (
-        <div className="mood-scale">
+        <div className="mood-scale" key={`${moodScale.id}-moodScale`}>
             <div><strong>{moodScale.scaleName}</strong></div>
             <div className="scale-items">
                 {moodScale.scaleItems ?
-                moodScale.scaleItems.map(scaleItem => <div>{showScaleItems(scaleItem.alias, moodScale.scaleType)}</div>) :
+                moodScale.scaleItems.map(scaleItem => <div key={`${scaleItem.id}-scaleItem`}>{showScaleItems(scaleItem.alias, moodScale.scaleType)}</div>) :
                 (<p>Error: scale has no items.</p>)}
             </div>
             <button id={moodScale.id} onClick={evnt => openForEdit(Number(evnt.target.id))}>Edit</button>
@@ -105,8 +107,8 @@ const ScaleEditor = ({moodScales, addNewScale, updateScale}) => {
             <h2>Edit Scales</h2>
             {moodScales ?
             moodScales.map(scale =>
-                editOpen == scale.id ?
-                (<ScaleEdit moodScale={getMoodScale(editOpen)} updateScale={updateScale} cancelEdit={setEditOpen} />) :
+                editOpen === scale.id ?
+                (<ScaleEdit moodScale={getMoodScale(editOpen)} updateScale={updateScale} cancelEdit={setEditOpen} key={`${editOpen}-editor`}/>) :
                 moodScaleShow(scale, setEditOpen)
             ) :
             (<p>"You have no scales. Please add some to get started."</p>)}

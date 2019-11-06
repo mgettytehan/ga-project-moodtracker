@@ -52,6 +52,10 @@ header button {
   color: var(--text-color);
 }
 
+header button:hover, header button:active {
+  background-color: var(--bg-color);
+}
+
 main {
   max-width: 1250px;
 }
@@ -117,6 +121,10 @@ td, th {
   padding: 5px;
   background-color: var(--bg-color-light);
   border: 3px solid var(--accent-color);
+}
+
+tr.highlight-row:hover > * {
+  background-color: #fafafb;
 }
 
 form {
